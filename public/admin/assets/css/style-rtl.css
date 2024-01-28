@@ -1,0 +1,53 @@
+/*================================================================================
+	Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+	Version: 2.0
+	Author: PIXINVENT
+	Author URL: http://www.themeforest.net/user/pixinvent
+================================================================================
+
+NOTE:
+------
+PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
+WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+@font-face {
+    font-family: 'DIN_Regular';
+    src: url("../../app-assets/fonts/DIN_REGULAR.otf") format('opentype');
+}
+.font-16{
+    font-size: 16px !important;
+}
+.card-header{
+    background-color: #a9a9a975;
+}
+.dir_ltr{
+    direction: ltr !important;
+}
+h1,h2,h3,h4,h5,h6,a,small{
+    font-family: 'DIN_Regular' !important
+}
+.nav-item span, .btn, label,th,td,.alert-success .alert-body,.alert-danger .alert-body,.alert-body,.badge {
+    font-family: 'DIN_Regular' !important
+}
+
+#example_filter label{
+    text-align: right;
+}
+.breadcrumb-item{
+    font-size: 17px;
+    font-weight: 500;
+}
+.row{
+    text-align: right;
+}
+.user-info-wrapper,.user-info-title, span .user-info-title{
+    font-weight: 600;
+    font-size: 14px;
+    font-family: 'DIN_Regular' !important
+}
+.user-info-title{
+    width:15.785rem !important;
+}
+.badge {
+    font-size: 15px !important;
+    font-weight: 500 !important;
+}

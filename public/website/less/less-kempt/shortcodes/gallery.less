@@ -1,0 +1,22 @@
+/*
+ * Shortcode: Gallery.less
+ * -----------------------------------------------
+*/
+
+.gallery-block {
+	position: relative;
+	overflow: hidden;
+}
+.gallery-block:hover .gallery-details {
+	opacity: 1;
+	padding-top: 60px;
+}
+.gallery-details {
+	background: rgba(0, 0, 0, 0.7) none repeat scroll 0 0;
+	height: 100%;
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	transition: all 300ms ease-in-out 0s;
+	width: 100%;
+}

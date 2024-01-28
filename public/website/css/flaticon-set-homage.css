@@ -1,0 +1,56 @@
+  /*
+    Flaticon icon font: Flaticon
+    Creation date: 01/05/2016 18:49
+    */
+
+@font-face {
+  font-family: "flaticon-set-Kempt";
+  src: url("../fonts/flaticons/flaticon-set-Kempt.eot");
+  src: url("../fonts/flaticons/flaticon-set-Kempt.eot?#iefix") format("embedded-opentype"),
+       url("../fonts/flaticons/flaticon-set-Kempt.woff") format("woff"),
+       url("../fonts/flaticons/flaticon-set-Kempt.ttf") format("truetype"),
+       url("../fonts/flaticons/flaticon-set-Kempt.svg#flaticon-set-Kempt") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "flaticon-set-Kempt";
+    src: url("../fonts/flaticons/flaticon-set-Kempt.svg#flaticon-set-Kempt") format("svg");
+  }
+}
+
+[class^="flaticon-Kempt-"]:before, [class*=" flaticon-Kempt-"]:before,
+[class^="flaticon-Kempt-"]:after, [class*=" flaticon-Kempt-"]:after {   
+  font-family: "flaticon-set-Kempt";
+  font-style: normal;
+}
+
+.flaticon-Kempt-animal:before { content: "\f100"; }
+.flaticon-Kempt-animal-1:before { content: "\f101"; }
+.flaticon-Kempt-animals:before { content: "\f102"; }
+.flaticon-Kempt-animals-1:before { content: "\f103"; }
+.flaticon-Kempt-animals-2:before { content: "\f104"; }
+.flaticon-Kempt-animals-3:before { content: "\f105"; }
+.flaticon-Kempt-animals-4:before { content: "\f106"; }
+.flaticon-Kempt-arab-horse:before { content: "\f107"; }
+.flaticon-Kempt-black:before { content: "\f108"; }
+.flaticon-Kempt-black-1:before { content: "\f109"; }
+.flaticon-Kempt-black-2:before { content: "\f10a"; }
+.flaticon-Kempt-black-3:before { content: "\f10b"; }
+.flaticon-Kempt-cup:before { content: "\f10c"; }
+.flaticon-Kempt-horse-head-right-side-view-silhouette:before { content: "\f10d"; }
+.flaticon-Kempt-horse-head-with-messy-mane-side-view:before { content: "\f10e"; }
+.flaticon-Kempt-horse-silhouette:before { content: "\f10f"; }
+.flaticon-Kempt-horse-silhouette-side-view-to-the-right:before { content: "\f110"; }
+.flaticon-Kempt-horse-turning-with-jockey:before { content: "\f111"; }
+.flaticon-Kempt-jumping-horse-silhouette-facing-left-side-view:before { content: "\f112"; }
+.flaticon-Kempt-man-riding-on-a-horse-silhouette-of-flamenco:before { content: "\f113"; }
+.flaticon-Kempt-monuments:before { content: "\f114"; }
+.flaticon-Kempt-national-september-11-memorial-museum:before { content: "\f115"; }
+.flaticon-Kempt-silhouette:before { content: "\f116"; }
+.flaticon-Kempt-sport:before { content: "\f117"; }
+.flaticon-Kempt-tool:before { content: "\f118"; }
+.flaticon-Kempt-tool-1:before { content: "\f119"; }
+.flaticon-Kempt-tool-2:before { content: "\f11a"; }
