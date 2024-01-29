@@ -151,7 +151,7 @@ class Trip extends Model
 
         //$startDate = Carbon::createFromFormat('Y-m-d', $start_date);
        // $endDate = Carbon::createFromFormat('Y-m-d',  $end_date);
-        $results = Trip::/*with('invoice','driverCompensation')->*/where('driver_id',$driver_id)->whereDate('created_at','>=', $start_date)->whereDate('created_at','<=', $end_date)->get();
+        $results = Trip::where('driver_id',$driver_id)->whereDate('created_at','>=', $start_date)->whereDate('created_at','<=', $end_date)->get();
         //$results = Trip::where('driver_id',$driver_id)->whereBetween(DB::raw('DATE(start_date)'), [$startDate, $endDate])->get();
         return $results;
 

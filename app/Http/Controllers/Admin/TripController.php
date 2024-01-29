@@ -141,8 +141,6 @@ class TripController extends Controller
             $trip->location_to = $request->location_to;
             $trip->car_type_id = $request->car_type_id_;
 
-
-
             $trip->silence_trip = 0;
             $trip->enable_discount = 0;
             $trip->note = ($request->note)?$request->note:'';

@@ -18,7 +18,11 @@
         /*center the marker*/
         top: 50%;
         left: 50%;
-        z-index: 1;
+
+        ]
+
+    \
+    dxsss-index: 1;
         /*fix offset when needed*/
         margin-left: -10px;
         margin-top: -34px;
@@ -316,8 +320,13 @@
         $('#add_trip').on('submit',function(e) {
             e.preventDefault();
             var car_type_id = $('#car_type_id').val();
+
             var from_place_id = $('#from_place_id').val();
             var to_place_id = $('#to_place_id').val();
+
+            var from_location = $('#place-input').val();
+            var to_location = $('#place-input-target').val();
+
             var user_id = $('#user_id').val();
             var second_number = $('#second_number').val();
             var user = $('#user').val();
@@ -326,6 +335,10 @@
             $('#user_').val(user);
             $('#user_id_').val(user_id);
             $('#car_type_id_').val(car_type_id);
+
+            $('#location_from').val(from_location);
+            $('#location_to').val(to_location);
+
             $('#second_number_').val(second_number);
             $('#trip_date_').val(trip_date);
             $('#type_').val(type);
@@ -345,11 +358,11 @@
 
                     $('#latitude_from').val(data['latitude_from']);
                     $('#longitude_from').val(data['longitude_from']);
-                    $('#location_from').val(data['location_from']);
+
 
                     $('#latitude_to').val(data['latitude_to']);
                     $('#longitude_to').val(data['longitude_to']);
-                    $('#location_to').val(data['location_to']);
+
                 }
             })
         });

@@ -97,8 +97,8 @@ Route::group(['middleware' => ['auth:admin']], function() {
 
 
         //users
-        //Route::get('users', 'Admin\UserController@index')->name('users.index');
-        Route::get('users', 'Admin\UserController@index');
+        Route::get('users', 'Admin\UserController@index')->name('users.index');
+        //Route::get('users', 'Admin\UserController@index');
 
         Route::get('users/view/{id}', 'Admin\UserController@view');
         Route::get('users/edit/{id}', 'Admin\UserController@edit');

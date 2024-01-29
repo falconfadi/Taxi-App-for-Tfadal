@@ -34,7 +34,7 @@ class BalanceController extends Controller
             $today = Carbon::today();
             $trips = $tripModel->getTripsWithDetailsBetweenTwoDatesDriver($request->driver_id,$today, $today);
         } else{
-            $trips = $tripModel->getTripsWithDetailsBetweenTwoDatesDriver($request->driver_id, $request->start_date, $request->end_date);
+            $trips = $tripModel->getTripsBetweenTwoDatesDriver($request->driver_id, $request->start_date, $request->end_date);
         }
         if($trips){
             $tripCompensation = 0;$driverCompensation = 0; $discounts = 0; $wholePrice =0; $netMoneyCaptain = 0; $sumOfTrips = 0;
@@ -53,7 +53,9 @@ class BalanceController extends Controller
                     $discounts += $trip->invoice->discount + $scheduleTripDiscount;
                     //$price = $trip->invoice->price;
                     $wholePrice += $trip->invoice->price + $trip->invoice->discount;
-                    $netMoneyCaptain += $wholePrice + $driverCompensation + $tripCompensation - $trip->invoice->company_percentage;
+
+                    $netMoneyCaptain = $wholePrice + $driverCompensation + $tripCompensation - $companyPercentage;
+
                 }
 //                else{
 //                    $discounts = 0;
@@ -100,4 +102,3 @@ class BalanceController extends Controller
         }
     }
 }
-//0962128385

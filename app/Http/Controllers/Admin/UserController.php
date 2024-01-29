@@ -22,69 +22,69 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
 
-//    public function index(Request $request)
-//    {
-//        $title = __('menus.Users');
-//        $u = new User();
-//        //$users = User::where('is_driver',0)->get();
-//        $freezeReason = new FreezeReason();
-//        $users = $u->getAllUsers();
-//        $careers = Career::all();
-//        if ($request->ajax()) {
-//            //$data = User::select('*');
-//            $data = $u->getAllUsers();
-//
-//            return Datatables::of($data)
-//                ->addIndexColumn()
-//                ->addColumn('action', function($row) {
-//
-//                    $btn = '
-//                     <div class="dropdown">
-//                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-//                            Dropdown
-//                          </button>
-//                          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-//                            <button class="dropdown-item" type="button">Action</button>
-//                            <button class="dropdown-item" type="button">Another action</button>
-//                            <button class="dropdown-item" type="button">Something else here</button>
-//                          </div>
-//                        </div>';
-//
-//
-//
-//                    return $btn;
-//                })
-//                ->rawColumns(['action'])
-//                ->make(true);
-//        }
-//
-//
-//        return view('admin.users.index1',compact('users','title','careers'));
-//    }
-
-    public function index()
+    public function index(Request $request)
     {
         $title = __('menus.Users');
         $u = new User();
         //$users = User::where('is_driver',0)->get();
         $freezeReason = new FreezeReason();
         $users = $u->getAllUsers();
-
-        $U = new User();
-        $notAvailableDriversIds = $U->getUserIdswithActiveTrip();
-
         $careers = Career::all();
-        $trip = new Trip();
-        $trips = $trip->getTripsCountByUsers();
+        if ($request->ajax()) {
+            //$data = User::select('*');
+            $data = $u->getAllUsers();
 
-        $sumOftrips = array();
-        foreach ($users as  $user){
-            $sumOftrips[$user->id] = $trips->filter(function ($userTrip)use($user) {
-                return $userTrip->user_id==$user->id;
-            })->first()->trip_count??0;
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row) {
+
+                    $btn = '
+                     <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropdown
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <button class="dropdown-item" type="button">Action</button>
+                            <button class="dropdown-item" type="button">Another action</button>
+                            <button class="dropdown-item" type="button">Something else here</button>
+                          </div>
+                        </div>';
+
+
+
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
-        return view('admin.users.index',compact('users','freezeReason','notAvailableDriversIds','title','careers','sumOftrips'));
+
+
+        return view('admin.users.index1',compact('users','title','careers'));
     }
+
+//    public function index()
+//    {
+//        $title = __('menus.Users');
+//        $u = new User();
+//        //$users = User::where('is_driver',0)->get();
+//        $freezeReason = new FreezeReason();
+//        $users = $u->getAllUsers();
+//
+//        $U = new User();
+//        $notAvailableDriversIds = $U->getUserIdswithActiveTrip();
+//
+//        $careers = Career::all();
+//        $trip = new Trip();
+//        $trips = $trip->getTripsCountByUsers();
+//
+//        $sumOftrips = array();
+//        foreach ($users as  $user){
+//            $sumOftrips[$user->id] = $trips->filter(function ($userTrip)use($user) {
+//                return $userTrip->user_id==$user->id;
+//            })->first()->trip_count??0;
+//        }
+//        return view('admin.users.index',compact('users','freezeReason','notAvailableDriversIds','title','careers','sumOftrips'));
+//    }
 
     public function view($id)
     {

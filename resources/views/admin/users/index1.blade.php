@@ -158,13 +158,79 @@
 @push('datatablefooter')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+{{--    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">--}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+{{--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>--}}
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <style>
 
+
+
+        div.dataTables_wrapper {
+            direction: rtl;
+        }
+        th, td{
+            white-space: nowrap;
+        }
+        .dataTables_length {
+            float: right;
+        }
+        .dataTables_filter {
+            float: right;
+            text-align: right;
+        }
+        #DataTables_Table_0_last {
+            -moz-border-radius-bottomright: 0px;
+            -webkit-border-bottom-right-radius: 0px;
+            -khtml-border-bottom-right-radius: 0px;
+            border-bottom-right-radius: 0px;
+
+            -moz-border-radius-topright: 0px;
+            -webkit-border-top-right-radius: 0px;
+            -khtml-border-top-right-radius: 0px;
+            border-top-right-radius: 0px;
+
+            -moz-border-radius-bottomleft: 6px;
+            -webkit-border-bottom-left-radius: 6px;
+            -khtml-border-bottom-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+
+            -moz-border-radius-topleft: 6px;
+            -webkit-border-top-left-radius: 6px;
+            -khtml-border-top-left-radius: 6px;
+            border-top-left-radius: 6px;
+        }
+        #DataTables_Table_0_first {
+            -moz-border-radius-bottomright: 6px;
+            -webkit-border-bottom-right-radius: 6px;
+            -khtml-border-bottom-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+
+            -moz-border-radius-topright: 6px;
+            -webkit-border-top-right-radius: 6px;
+            -khtml-border-top-right-radius: 6px;
+            border-top-right-radius: 6px;
+
+            -moz-border-radius-bottomleft: 0px;
+            -webkit-border-bottom-left-radius: 0px;
+            -khtml-border-bottom-left-radius: 0px;
+            border-bottom-left-radius: 0px;
+
+            -moz-border-radius-topleft: 0px;
+            -webkit-border-top-left-radius: 0px;
+            -khtml-border-top-left-radius: 0px;
+            border-top-left-radius: 0px;
+        }
+        .dataTables_info {
+            float: right;
+        }
+        .dataTables_paginate {
+            float: left;
+            text-align: left;
+        }
+    </style>
     <script>
         $( "#add_car" ).click(function() {
             //alert( "Handler for .click() called." );
@@ -204,7 +270,7 @@
                 ajax: "{{ route('users.index') }}",
                 columns: [
                     {data: 'name', name: 'name'},
-                    {data: 'phone', name: 'c'},
+                    {data: 'phone', name: 'phone'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
             });
