@@ -22,6 +22,7 @@ class Controller extends BaseController
     //protected $isAdmin = Auth::guard('admin')->user()?->role('Super-Admin');
     protected $id;
     protected $isAdmin;
+    protected $permissionsNames;
     protected $setting;
     protected $tSetting;
     public function __construct()
@@ -50,6 +51,7 @@ class Controller extends BaseController
                 foreach ($permissions as $p) {
                     $permissionsNames[] = $p->name;
                 }
+                $this->permissionsNames = $permissionsNames;
                 View::share('permissionsNames', $permissionsNames);
             }
 

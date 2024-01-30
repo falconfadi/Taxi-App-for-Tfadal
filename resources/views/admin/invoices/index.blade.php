@@ -69,11 +69,12 @@
 {{--                                            <i data-feather="edit-2" class="mr-50"></i>--}}
 {{--                                            <span>{{__('page.Edit')}}</span>--}}
 {{--                                        </a>--}}
-
+                                        @if(in_array('delete_invoice',$permissionsNames) || $isAdmin)
                                         <a class="dropdown-item confirm-text" href="{{url('admin/invoices/delete/'.$inv->id)}}">
                                             <i data-feather="trash" class="mr-50"></i>
                                             <span>{{__('page.Delete')}}</span>
                                         </a>
+                                        @endif
                                     </div>
                                 </div>
                             </td>

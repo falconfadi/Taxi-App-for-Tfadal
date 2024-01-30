@@ -30,28 +30,31 @@ class UserController extends Controller
         $freezeReason = new FreezeReason();
         $users = $u->getAllUsers();
         $careers = Career::all();
+        $permissionsNames = $this->permissionsNames;
+        $isAdmin = $this->isAdmin ;
         if ($request->ajax()) {
             //$data = User::select('*');
             $data = $u->getAllUsers();
 
             return Datatables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action', function($row) {
+                ->addColumn('action', function($row) use($permissionsNames,$isAdmin) {
 
                     $btn = '
-                     <div class="dropdown">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <button class="dropdown-item" type="button">Action</button>
-                            <button class="dropdown-item" type="button">Another action</button>
-                            <button class="dropdown-item" type="button">Something else here</button>
+                        <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        '.__('page.Actions').'
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenu2">';
+                    if(in_array('edit_user',$permissionsNames) || $isAdmin) {
+                        $btn .= '   <a class="dropdown-item" href="' . url('admin/users/edit/' . $row->id) . '">
+                                            <i data-feather="edit-2" class="mr-50"></i>
+                                            <span>' . __('page.Edit') . '</span>
+                             </a>';
+                    }
+                    $btn .= '
                           </div>
                         </div>';
-
-
-
                     return $btn;
                 })
                 ->rawColumns(['action'])

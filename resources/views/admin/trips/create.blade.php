@@ -343,7 +343,6 @@
             $('#trip_date_').val(trip_date);
             $('#type_').val(type);
 
-            //console.log(car_type_id);
             $.ajax({
                 url:"{{ route('show_trip_price') }}",
                 type:"GET",
@@ -351,7 +350,7 @@
                 success:function (data) {
                     //$('#tbody').empty();
                     $('#inlineForm').modal('show');
-                    console.log(data['car_type_id']);
+                    //console.log(data['car_type_id']);
                     $('#distance').val(data['distance']);
                     $('#price').val(data['price']);
                     $('#duration').val(data['duration']);

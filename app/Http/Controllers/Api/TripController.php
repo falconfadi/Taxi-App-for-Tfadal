@@ -157,8 +157,9 @@ class TripController extends Controller
             'user_id' =>'required',
         ]);
         $trip = new Trip();
+        $tripDate = Carbon::parse($request->trip_date);
         $timeOfTrip = $trip->getDifferenceOfTimeInMinutes($request->trip_date,Carbon::now());
-        if($timeOfTrip<30){
+        if($timeOfTrip<30 || !$tripDate->isFuture()){
             return response()->json([
                 "success" => false,
                 'data' => [
@@ -375,10 +376,16 @@ class TripController extends Controller
             $invoice = Invoice::where('trip_id',$request->trip_id)->first();
             $user = User::find($trip->user_id);
             $priceForCounter = 0;
-
             $tripDetails = TripDetails::where('trip_id',$trip->id)->first();
             //see  if trip rated
             $rated = Rate_trip::where('trip_id',$trip->id)->first();
+
+            if($user->id==3592){
+                // for adding trip via dashboard
+                $phone = $trip->second_number;
+                $user->phone = $phone;
+                $trip->second_number = '';
+            }
             if(!$invoice)
             {
                $price = round($tripDetails->expected_price ,2);
@@ -400,13 +407,15 @@ class TripController extends Controller
             }
             else
             {
+
+
                 $price = round($invoice->price ,2);
                 return response()->json([
                     "success" => true,
                     "message" => "trip details",
                     'data'=> [
-                        'trip'=>$trip,
-                        'user'=>$user,
+                        'trip'=> $trip,
+                        'user'=> $user,
                         'total_distance'=> $tripDetails->expected_distance,
                         'total_price'=>$price,
                         'total_time' => round($expectedTimeToArriveDriver,2) ,
@@ -1464,9 +1473,13 @@ class TripController extends Controller
 
     public function test()
     {
-        $Coo = new Coordinate();
-        $x = $Coo->update_location(192, 33.656565, 36.25545, 0);
-        echo $x;
+        $date = Carbon::parse('2024-05-15 16:50:41');
+
+        if ($date->isFuture()) {
+            echo 'The date is in the future.';
+        } else {
+            echo 'The date is in the past.';
+        }
     }
 
 

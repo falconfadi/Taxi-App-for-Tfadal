@@ -402,7 +402,7 @@ Route::get('test',[\App\Http\Controllers\Api\TestController::class,'test1']);
 Route::get('test3',[\App\Http\Controllers\Admin\TripController::class,'test']);
 //Route::get('test1',[\App\Http\Controllers\Admin\DriverController::class,'test']);
 //Route::get('test2',[\App\Http\Controllers\Api\CarController::class,'test']);
-//Route::get('test3',[\App\Http\Controllers\Api\TripController::class,'test']);
+Route::get('test4',[\App\Http\Controllers\Api\TripController::class,'test']);
 //Route::get('test4',[\App\Http\Controllers\PointLocationController::class,'test']);
 //Route::get('test5',[\App\Http\Controllers\Admin\OffersController::class,'test']);
 //Route::get('test6',[\App\Http\Controllers\Admin\RoleController::class,'test']);
