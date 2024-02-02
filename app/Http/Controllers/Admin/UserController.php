@@ -30,6 +30,7 @@ class UserController extends Controller
         $freezeReason = new FreezeReason();
         $users = $u->getAllUsers();
         $careers = Career::all();
+        $freezeReason = new FreezeReason();
         $permissionsNames = $this->permissionsNames;
         $isAdmin = $this->isAdmin ;
         if ($request->ajax()) {
@@ -38,7 +39,8 @@ class UserController extends Controller
 
             return Datatables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action', function($row) use($permissionsNames,$isAdmin) {
+                //$user is row item from $data
+                ->addColumn('action', function($user) use($permissionsNames, $isAdmin, $freezeReason) {
 
                     $btn = '
                         <div class="dropdown">
@@ -47,11 +49,50 @@ class UserController extends Controller
                       </button>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenu2">';
                     if(in_array('edit_user',$permissionsNames) || $isAdmin) {
-                        $btn .= '   <a class="dropdown-item" href="' . url('admin/users/edit/' . $row->id) . '">
-                                            <i data-feather="edit-2" class="mr-50"></i>
-                                            <span>' . __('page.Edit') . '</span>
-                             </a>';
+                        $btn .= '   <a class="dropdown-item" href="' . url('admin/users/edit/' . $user->id) . '">
+                                        <i data-feather="edit-2" class="mr-50"></i>
+                                        <span>' . __('page.Edit') . '</span>
+                                    </a>';
                     }
+                    if(in_array('change_password_user',$permissionsNames) || $isAdmin) {
+                        $btn .= '    <a class="dropdown-item " href="'.url('admin/users/change_password/'.$user->id).'">
+                                            <i data-feather="eye-off" class="mr-50"></i>
+                                            <span>'.__('menus.change_password').'</span>
+                                        </a>';
+                    }
+                    if(in_array('freeze_user',$permissionsNames) || $isAdmin) {
+                        if($freezeReason->isFreezed($user->id)==0){
+                        $btn .= '<a class="dropdown-item freeze-button"  data-toggle="modal" data-target="#new-folder-modal"  data-value="{{$user->id}}">
+                                            <i data-feather="stop-circle" class="mr-50"></i>
+                                            <span>'.__('page.Freeze').'</span>
+                                        </a>';
+                        }else{
+                            $btn .= '<a class="dropdown-item" href="'.url('admin/users/unfreeze/'.$user->id).'">
+                                                <i data-feather="stop-circle" class="mr-50"></i>
+                                                <span>'.__('page.Un_Freeze').'</span>
+                                            </a>';
+                        }
+
+                    }
+                    if(!$user->note)
+                    if(in_array('add_note_user',$permissionsNames) || $isAdmin) {
+                        $btn .= ' <a class="dropdown-item add_note" href="#" data-toggle="modal" data-target="#inlineForm" data-id="'.$user->id.'">
+                                        <i data-feather="clipboard"></i>
+                                        <span>'.__('label.add_note').'</span>
+                                    </a>';
+                    }
+                    $btn .= '<a class="dropdown-item add-career-button"  data-toggle="modal" data-target="#add-career-modal"  data-value="'.$user->id.'">
+                                <i data-feather="stop-circle" class="mr-50"></i>
+                                <span>إضافة مهنة</span>
+                            </a>';
+                    //
+                    if(in_array('delete_user',$permissionsNames) || $isAdmin) {
+                        $btn .= '<a class="dropdown-item confirm-text" href="'.url('admin/users/delete/'.$user->id).'">
+                                    <i data-feather="trash" class="mr-50"></i>
+                                    <span>'.__('page.Delete').'</span>
+                                </a>';
+                    }
+
                     $btn .= '
                           </div>
                         </div>';
@@ -379,7 +420,7 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $res = User::find($id)->delete();
+        //$res = User::find($id)->delete();
         return back()->with('success','User deleted successfully');
     }
     public function finalDelete($id)

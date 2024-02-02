@@ -38,6 +38,8 @@
       <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/custom-rtl.min.css')}}">
       <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/style-rtl.css')}}">
     <!-- END: Custom CSS-->
+
+
 <style>
     .alert-body{
         font-size: 16px;
@@ -424,19 +426,18 @@
     <script src="{{ asset('admin/app-assets/vendors/js/vendors.min.js')}}"></script>
 
     @stack('datepicker')
+    <!-- Sweet alert delete -->
+
     @stack('datatablefooter')
     <!-- BEGIN Vendor JS-->
-
-    <!-- Sweet alert delete -->
     <script  src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        // Confirm Text
-        $('.confirm-text').on('click', function (event) {
-            //confirmText.on('click', function () {
+        //Confirm Text
+        $(document).on('click', '.confirm-text', function(){
             event.preventDefault();
-
+            //console.log(345);
             const url = $(this).attr('href');
-
+            //alert("fdf");
             Swal.fire({
                 title: 'هل أنت متأكد؟',
                 text: "غير قابل للاسترجاع",
@@ -464,13 +465,23 @@
             });
         });
     </script>
+
     @stack('confirm_maintenance')
     @stack('select2')
+    @stack('side_modal')
     <!-- BEGIN: Theme JS-->
     <script src="{{ asset('admin/app-assets/js/core/app-menu.min.js')}}"></script>
     <script src="{{ asset('admin/app-assets/js/core/app.min.js')}}"></script>
     <script src="{{ asset('admin/app-assets/js/scripts/customizer.min.js')}}"></script>
+    <script src="{{asset('admin/app-assets/js/scripts/pages/app-user-list.min.js')}}"></script>
 
+    <script>
+        $(document).on('click', '#add_car', function(){
+            //alert( "Handler for .click() called." );
+            $('#modals-slide-in').modal('toggle');
+            $('#modals-slide-in').modal('show');
+        });
+    </script>
     @stack('richtext')
 
 

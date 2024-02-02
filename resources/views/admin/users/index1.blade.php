@@ -165,9 +165,6 @@
 {{--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>--}}
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <style>
-
-
-
         div.dataTables_wrapper {
             direction: rtl;
         }
@@ -181,48 +178,7 @@
             float: right;
             text-align: right;
         }
-        #DataTables_Table_0_last {
-            -moz-border-radius-bottomright: 0px;
-            -webkit-border-bottom-right-radius: 0px;
-            -khtml-border-bottom-right-radius: 0px;
-            border-bottom-right-radius: 0px;
 
-            -moz-border-radius-topright: 0px;
-            -webkit-border-top-right-radius: 0px;
-            -khtml-border-top-right-radius: 0px;
-            border-top-right-radius: 0px;
-
-            -moz-border-radius-bottomleft: 6px;
-            -webkit-border-bottom-left-radius: 6px;
-            -khtml-border-bottom-left-radius: 6px;
-            border-bottom-left-radius: 6px;
-
-            -moz-border-radius-topleft: 6px;
-            -webkit-border-top-left-radius: 6px;
-            -khtml-border-top-left-radius: 6px;
-            border-top-left-radius: 6px;
-        }
-        #DataTables_Table_0_first {
-            -moz-border-radius-bottomright: 6px;
-            -webkit-border-bottom-right-radius: 6px;
-            -khtml-border-bottom-right-radius: 6px;
-            border-bottom-right-radius: 6px;
-
-            -moz-border-radius-topright: 6px;
-            -webkit-border-top-right-radius: 6px;
-            -khtml-border-top-right-radius: 6px;
-            border-top-right-radius: 6px;
-
-            -moz-border-radius-bottomleft: 0px;
-            -webkit-border-bottom-left-radius: 0px;
-            -khtml-border-bottom-left-radius: 0px;
-            border-bottom-left-radius: 0px;
-
-            -moz-border-radius-topleft: 0px;
-            -webkit-border-top-left-radius: 0px;
-            -khtml-border-top-left-radius: 0px;
-            border-top-left-radius: 0px;
-        }
         .dataTables_info {
             float: right;
         }
@@ -231,18 +187,12 @@
             text-align: left;
         }
     </style>
-    <script>
-        $( "#add_car" ).click(function() {
-            //alert( "Handler for .click() called." );
-            $('#modals-slide-in').modal('toggle');
-            $('#modals-slide-in').modal('show');
-        });
-    </script>
+
 
     <script>
         $(document).ready(function () {
-            $('.add_note').on('click', function(e) {
-
+            $(document).on('click', '.add_note', function(){
+            //$('.add_note').on('click', function(e) {
                // var id = $(this).data("id");
                 $('#user_id').val($(this).data("id"));
 
@@ -251,13 +201,15 @@
     </script>
     <script>
         //get the driver id to modal
-        $( ".freeze-button" ).click(function() {
+        $(document).on('click', '.freeze-button', function(){
+        //$( ".freeze-button" ).click(function() {
             $('#user_id_').val(this.getAttribute('data-value'));
         });
     </script>
     <script>
         //get the user id to modal
-        $( ".add-career-button" ).click(function() {
+        $(document).on('click', '.add-career-button', function(){
+        //$( ".add-career-button" ).click(function() {
             $('#userId').val(this.getAttribute('data-value'));
         });
     </script>
@@ -278,13 +230,16 @@
         });
     </script>
 @endpush
-@push('select2')
-    <!-- BEGIN: Page Vendor JS-->
-{{--    <script src="{{ asset('admin/app-assets/vendors/js/forms/select/select2.full.min.js')}}"></script>--}}
-{{--    <!-- END: Page Vendor JS-->--}}
-{{--    <!-- BEGIN: Page JS-->--}}
-{{--    <script src="{{ asset('admin/app-assets/js/scripts/forms/form-select2.min.js')}}"></script>--}}
-    <!-- END: Page JS-->
+@push('side_modal')
+{{--    <script src="{{asset('admin/app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js')}}"></script>--}}
+    <script src="{{asset('admin/app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js')}}"></script>
+{{--    <script src="{{asset('admin/app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js')}}"></script>--}}
+    <script src="{{asset('admin/app-assets/vendors/js/tables/datatable/responsive.bootstrap4.js')}}"></script>
+{{--    <script src="{{asset('admin/app-assets/vendors/js/tables/datatable/datatables.buttons.min.js')}}"></script>--}}
+{{--    <script src="{{asset('admin/app-assets/vendors/js/tables/datatable/buttons.bootstrap4.min.js')}}"></script>--}}
+{{--    <script src="{{asset('admin/app-assets/vendors/js/forms/validation/jquery.validate.min.js')}}"></script>--}}
+
+
 @endpush
 <div class="form-modal-ex">
 
@@ -324,5 +279,6 @@
         </div>
     </div>
 </div>
+
 
 
