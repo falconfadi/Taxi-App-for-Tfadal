@@ -20,6 +20,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests,HasRoles;
 
     //protected $isAdmin = Auth::guard('admin')->user()?->role('Super-Admin');
+    protected $locale;
     protected $id;
     protected $isAdmin;
     protected $permissionsNames;
@@ -27,8 +28,8 @@ class Controller extends BaseController
     protected $tSetting;
     public function __construct()
     {
-        App::setLocale('ar');
-        session()->put('locale', 'ar');
+//        App::setLocale('ar');
+//        session()->put('locale', 'ar');
 
         $x = new Setting();
         $setting = $x->getSetting();
@@ -37,6 +38,8 @@ class Controller extends BaseController
 
         $this->tSetting = TripSetting::find(1);
 
+//        $this->locale = session()->get('locale');
+//        View::share('locale',$this->locale);
 
         $this->middleware(function ($request, $next) {
             //get the role of user is he is super admin or not

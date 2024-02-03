@@ -22,7 +22,8 @@ class HomeController extends Controller
     {
         parent::__construct();
         //$this->middleware('auth:admin');
-//        App::setLocale('ar');
+         //app()->setLocale(session()->get('locale'));
+         //echo app()->getLocale()."hone";
 //        session()->put('locale', 'ar');
 
 

@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\PointsController;
 use App\Http\Controllers\MakeNotificationController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\App;
+
 //use App\Http\Controllers\Auth\AdminLoginController;
 /*
 |--------------------------------------------------------------------------
@@ -388,6 +390,20 @@ Route::group(['middleware' => ['auth:admin']], function() {
 
 
     Route::get('admin/driver_by_id/{id}',[\App\Http\Controllers\Admin\DriverController::class,'getDriverByDriverId']);
+
+    //change language
+    Route::get('/change-language/{locale}', function ($locale) {
+        if (!in_array($locale, ['en', 'ar'])) {
+            abort(404);
+
+           // session()->put('locale',  'ar');
+        }
+
+        App::setLocale($locale);
+        // Session
+        session()->put('locale', $locale);
+        return redirect()->back();
+    });
 });
 
 Route::get('user-login',[\App\Http\Controllers\LoginUserController::class,'index']);

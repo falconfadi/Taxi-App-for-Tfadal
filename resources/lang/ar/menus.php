@@ -33,11 +33,10 @@ return [
     'Approved' => 'تم تأكيده من السائق',
     'Arrived_to_customer' => 'وصل للعميل',
     'In_the_way' => 'على الطريق',
-    'In_the_way' => 'على الطريق',
     'Arrived_to_destination_location' => 'وصل للوجهة',
     'Cancelled' => 'تم الإلغاء',
-    'Scheduled_Trip' => 'رحلة مجدولة',
-    'Scheduled_Trips' => 'الرحلات  المجدولة',
+    'Scheduled_Trip' => 'رحلة لاحقة',
+    'Scheduled_Trips' => 'الرحلات  اللاحقة',
     'Slider' => 'السلايدر',
     'Edit_User' => 'تعديل بيانات المستخدم',
     'Edit_slider' => 'تعديل سلايدر',
@@ -75,7 +74,12 @@ return [
     'user_trips' => 'رحلات العميل',
     'driver_trips' => 'رحلات الكابتن',
     'pos' => 'نقاط البيع',
-    'Add_trip' => 'إنشاء رحلة'
+    'Add_trip' => 'إنشاء رحلة',
+    'roles' => 'الصلاحيات',
+    'roles_' => 'الأدوار',
+    'users_panel' => 'المستخدمين',
+    'policy_who' => 'الخصوصية ومن نحن'
+
 
 
 ];

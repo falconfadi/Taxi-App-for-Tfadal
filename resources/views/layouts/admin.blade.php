@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 
-<html class="loading semi-dark-layout" lang="ar" data-layout="semi-dark-layout" data-textdirection="ltr" >
+<html class="loading semi-dark-layout" lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-layout="semi-dark-layout" data-textdirection="ltr" >
   <!-- BEGIN: Head-->
   <head>
+      @php $locale = app()->getLocale();
+       // echo session()->get('locale')."-";
+ @endphp
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
@@ -15,30 +18,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
 
     <!-- BEGIN: Vendor CSS-->
-      <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/vendors/css/vendors-rtl.min.css')}}">
-      @stack('datepicker_header')
+      @if($locale=='en')
+              <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/vendors/css/vendors.min.css')}}">
+              @stack('datepicker_header')
+              <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/vendors/css/forms/select/select2.min.css')}}">
+              @stack('datatableheader')
 
-      <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/vendors/css/forms/select/select2.min.css')}}">
-      @stack('datatableheader')
-    <!-- END: Vendor CSS-->
-
-    <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/bootstrap.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/bootstrap-extended.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/colors.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/components.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/themes/semi-dark-layout.min.css')}}">
-    <!-- BEGIN: Page CSS-->
-    @stack('datepicker_header2')
-
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/core/menu/menu-types/vertical-menu.min.css')}}">
-    @stack('view-page-css')
-    <!-- END: Page CSS-->
-    <!-- BEGIN: Custom CSS-->
-      <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/custom-rtl.min.css')}}">
-      <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/style-rtl.css')}}">
-    <!-- END: Custom CSS-->
-
+            <!-- BEGIN: Theme CSS-->
+            <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css/bootstrap.min.css')}}">
+            <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css/bootstrap-extended.min.css')}}">
+            <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css/colors.min.css')}}">
+            <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css/components.min.css')}}">
+            <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css/themes/semi-dark-layout.min.css')}}">
+            <!-- BEGIN: Page CSS-->
+            @stack('datepicker_header2')
+            <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css/core/menu/menu-types/vertical-menu.min.css')}}">
+            @stack('view-page-css')
+            <!-- END: Page CSS-->
+            <!-- BEGIN: Custom CSS-->
+              <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/style.css')}}">
+            <!-- END: Custom CSS-->
+      @else
+          <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/vendors/css/vendors-rtl.min.css')}}">
+          @stack('datepicker_header')
+          <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/vendors/css/forms/select/select2.min.css')}}">
+          @stack('datatableheader')
+          <!-- BEGIN: Theme CSS-->
+          <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/bootstrap.min.css')}}">
+          <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/bootstrap-extended.min.css')}}">
+          <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/colors.min.css')}}">
+          <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/components.min.css')}}">
+          <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/themes/semi-dark-layout.min.css')}}">
+          <!-- BEGIN: Page CSS-->
+          @stack('datepicker_header2')
+          <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/core/menu/menu-types/vertical-menu.min.css')}}">
+          @stack('view-page-css')
+            <!-- END: Page CSS-->
+          <!-- BEGIN: Custom CSS-->
+          <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/custom-rtl.min.css')}}">
+          <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/style-rtl.css')}}">
+          <!-- END: Custom CSS-->
+      @endif
 
 <style>
     .alert-body{
@@ -46,6 +66,7 @@
     }
 </style>
 @php
+    //echo $locale;
 // if mobile
     $isMob = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "mobile"));
 
@@ -89,13 +110,18 @@
             </ul>
         </div>
         <ul class="nav navbar-nav align-items-center ml-auto">
-{{--          <li class="nav-item dropdown dropdown-language"><a class="nav-link dropdown-toggle" id="dropdown-flag" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span></a>--}}
-{{--            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-flag">--}}
-{{--                <a class="dropdown-item" href="javascript:void(0);" data-language="en"><i class="flag-icon flag-icon-us"></i> English</a>--}}
-{{--                <a class="dropdown-item" href="javascript:void(0);" data-language="fr"><i class="flag-icon flag-icon-fr"></i> French</a>--}}
-{{--                <a class="dropdown-item" href="javascript:void(0);" data-language="de"><i class="flag-icon flag-icon-de"></i> German</a>--}}
-{{--                <a class="dropdown-item" href="javascript:void(0);" data-language="pt"><i class="flag-icon flag-icon-pt"></i> Portuguese</a></div>--}}
-{{--          </li>--}}
+          <li class="nav-item dropdown dropdown-language">
+              @if($locale=='en')
+                    <a class="nav-link dropdown-toggle" id="dropdown-flag" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span></a>
+              @else
+                  <a class="nav-link dropdown-toggle" id="dropdown-flag" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-sy"></i><span class="selected-language">عربي</span></a>
+              @endif
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-flag">
+                <a class="dropdown-item" href="{{url('change-language/en')}}" data-language="en"><i class="flag-icon flag-icon-us"></i> English</a>
+                <a class="dropdown-item" href="{{url('change-language/ar')}}" data-language="sa"><i class="flag-icon flag-icon-sy"></i> عربي</a>
+            </div>
+          </li>
+
 
           <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="user-nav d-sm-flex d-none">
@@ -288,11 +314,11 @@
 {{--            </li>--}}
 {{--            @endif--}}
             @if(in_array('Permissions',$permissionsNames) || $isAdmin)
-            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="credit-card"></i><span class="menu-title text-truncate" data-i18n="eCommerce">{{'الصلاحيات'}}</span></a>
+            <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="credit-card"></i><span class="menu-title text-truncate" data-i18n="eCommerce">{{__('menus.roles')}}</span></a>
                 <ul class="menu-content">
-                    <li><a class="d-flex align-items-center" href="{{url('admin/roles')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Shop">{{'الأدوار'}}</span></a>
+                    <li><a class="d-flex align-items-center" href="{{url('admin/roles')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Shop">{{__('menus.roles_')}}</span></a>
                     </li>
-                    <li><a class="d-flex align-items-center" href="{{url('admin/users_panel')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">{{('المستخدمين')}}</span></a>
+                    <li><a class="d-flex align-items-center" href="{{url('admin/users_panel')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Details">{{__('menus.users_panel')}}</span></a>
                     </li>
                 </ul>
             </li>
@@ -357,7 +383,7 @@
             @if( in_array('verification_codes',$permissionsNames) || $isAdmin)
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="{{url('admin/verification_codes')}}"><i data-feather='code'></i>
-                    <span class="menu-title text-truncate" data-i18n="Chat">أكواد التحقق</span></a>
+                    <span class="menu-title text-truncate" data-i18n="Chat">{{__('menus.verification_codes')}}</span></a>
             </li>
             @endif
 
@@ -369,7 +395,7 @@
           @endif
 
             @if(in_array('Privacy Policy',$permissionsNames) || $isAdmin)
-              <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='bar-chart'></i><span class="menu-title text-truncate" data-i18n="eCommerce">الخصوصية ومن نحن</span></a>
+              <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='bar-chart'></i><span class="menu-title text-truncate" data-i18n="eCommerce">{{__('menus.policy_who')}}</span></a>
                   <ul class="menu-content">
                       <li><a class="d-flex align-items-center" href="{{url('admin/privacy_policy')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Shop">{{__('menus.policy')}}</span></a>
                       </li>
