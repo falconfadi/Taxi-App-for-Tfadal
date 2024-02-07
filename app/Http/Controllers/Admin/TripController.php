@@ -61,17 +61,20 @@ class TripController extends Controller
             '5'=>__('menus.Cancelled'),
             '6'=>__('menus.Scheduled_Trip'));
         $this->key  = env('GOOGLE_MAPS_API_KEY');
-        App::setLocale('ar');
+//        App::setLocale('ar');
         session()->put('locale', 'ar');
+
     }
 
     public function index()
     {
         $title = 'Trips';
         $t = new Trip();
-        //$trips = Trip::all();
+        //$trips = Trip::all();3
+        var_dump(App::getLocale()."-0");
         $trips = $t->getlastNTrips(900);
         $status = $this->status;
+       //var_dump($status);
         $cancelReasons = Cancel_reason::all();
         $U = new User();
         $availableDrivers = $U->getAvailableDrivers();
@@ -893,11 +896,14 @@ class TripController extends Controller
 
     public function test()
     {
-        $trip = Trip::find(3861);
-        $off = ($trip->noteTrip)? substr($trip->noteTrip->note, 0, 20) :'';
 
+//        $trip = Trip::find(3861);
+//        $off = ($trip->noteTrip)? substr($trip->noteTrip->note, 0, 20) :'';
+//        var_dump($off);
+        $m = 25322;
+        $c = $this->roundUp500($m);
+        var_dump($c);
 
-        var_dump($off);
     }
 
 

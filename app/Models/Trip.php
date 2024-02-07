@@ -206,4 +206,18 @@ class Trip extends Model
         return $trip;
     }
 
+    public function lastTripNotSeen($tripId, $driverId){
+        $trip  = DB::table('trips')
+            //->select(DB::raw('id ,coordinates.latitude as latitude,coordinates.longitude as longitude,driver_id,name,last_name,father_name,drivers.id as driver_details_id'))
+            ->join('trips_drivers_seen','trips_drivers_seen.driver_id','=','trips.driver_id')
+            ->where('driver_id', $driverId)
+            ->where('status',0)
+            ->orderBy('trips.id','DESC')
+
+            //->get();
+
+            ->first();
+        return $trip;
+    }
+
 }

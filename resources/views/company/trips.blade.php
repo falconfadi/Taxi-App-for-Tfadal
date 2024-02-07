@@ -61,7 +61,7 @@
                         <tr>
                             <td><a href="{{url('admin/trips/view/'.$trip->id)}}">{{$trip->serial_num}}</a></td>
                             <td>{{''}}</td>
-                            <td>{{($trip->driver_id !=0 )?$trip->driver->name:''}}</td>
+                            <td>{{($trip->driver_id !=0 && $trip->driver)?$trip->driver->name:''}}</td>
                             <td>{{$trip->start_date}}</td>
                             <td>{{$status[$trip->status]}}</td>
                             <td>

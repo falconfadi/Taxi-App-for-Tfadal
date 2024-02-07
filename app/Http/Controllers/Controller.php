@@ -28,18 +28,20 @@ class Controller extends BaseController
     protected $tSetting;
     public function __construct()
     {
-//        App::setLocale('ar');
-//        session()->put('locale', 'ar');
-
         $x = new Setting();
         $setting = $x->getSetting();
         $this->setting = $setting;
         View::share('setting',$setting);
 
         $this->tSetting = TripSetting::find(1);
+        //echo App::getLocale()."---";
+//        if (session()->has('locale')) {
+//            App::setlocale(session()->get('locale'));
+//        }else{
+//            App::setlocale('ar');
+//        }
 
-//        $this->locale = session()->get('locale');
-//        View::share('locale',$this->locale);
+
 
         $this->middleware(function ($request, $next) {
             //get the role of user is he is super admin or not
@@ -88,6 +90,9 @@ class Controller extends BaseController
     public function roundUp($number){
         return ceil($number / 100) * 100;
     }
+    public function roundUp500($number){
+        return ceil($number / 500) * 500;
+    }
     //remove points and round up 300.1=>301
     public function removePointsUp($number){
         return ceil($number );
@@ -98,7 +103,7 @@ class Controller extends BaseController
     }
 
     public function getTotalPrice($price, $discount){
-        $totalPrice = $price + $discount;
+        $totalPrice = $this->roundUp500($price + $discount) ;
 
 //        $tripDetails = TripDetails::where('trip_id',$trip_id)->first();
 //        if($tripDetails){

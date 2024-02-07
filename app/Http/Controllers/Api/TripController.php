@@ -32,6 +32,7 @@ use App\Models\Sum_money;
 use App\Models\TimeToArriveDriver;
 use App\Models\Trip;
 use App\Models\TripDetails;
+use App\Models\TripDriverSeen;
 use App\Models\User;
 use Carbon\Carbon;
 use DateTime;
@@ -353,6 +354,12 @@ class TripController extends Controller
         $trip = Trip::with('carType','driver')->where('id',$request->trip_id)->first();
         if ($trip)
         {
+            //check if driver see trip
+            $isDriverSeeTrip = TripDriverSeen::where('trip_id',$request->trip_id)->where('driver_id',$trip->driver_id);
+            if(!$isDriverSeeTrip){
+                $tripDriver = new TripDriverSeen();
+                $tripDriver->create(['trip_id'=>$request->trip_id,'driver_id'=>$trip->driver_id]);
+            }
             $carObj = new CarController();
             $driver = User::find($trip->driver_id);
             $expectedTimeToArriveDriver = 0;
@@ -786,6 +793,8 @@ class TripController extends Controller
             {
                 $trip->status = 5;
                 $trip->update();
+
+                $title = "إلغاء الرحلة";
                 //if user
                 if($user->is_driver==0){
                     // KPI users....... sum Trip Cancelled
@@ -801,10 +810,10 @@ class TripController extends Controller
                             'is_multiple'=>0,
                             'is_driver' => 1
                         ];
-                        $body = __('message.user_cancelled_order');
-                        $notificationObj->sendNotifications($trip->driver_id, "إلغاء الرحلة", $body, $data);
-                    }
 
+                        $body = __('message.user_cancelled_order');
+                        $notificationObj->sendNotifications($trip->driver_id, $title, $body, $data);
+                    }
                 }
                 else {
                     //make discount for driver
@@ -813,7 +822,6 @@ class TripController extends Controller
                     // KPI ...driver.... sum Trip Cancelled
                     $x = new KpiDriversController();
                     $x->sumTripCancelled($request->user_id );
-
 
                     //send notification to user that his trip cancelled
                     $notificationObj = new NotificationsController();
@@ -824,7 +832,7 @@ class TripController extends Controller
                         'is_driver' => 0
                     ];
                     $body = __('message.driver_cancelled_order');
-                    $notificationObj->sendNotifications($trip->user_id , "إلغاء الرحلة", $body,$data);
+                    $notificationObj->sendNotifications($trip->user_id , $title, $body,$data);
                 }
 
                 //re calculate compensation
@@ -1110,6 +1118,8 @@ class TripController extends Controller
             'driver_id' =>'required',
         ]);
         //echo date('Y-m-d H:i:s');
+        //get trip last pending trip and cartype = same car type for driver
+        //add new table
         $activeTrip = Trip::with('carType','driver')->where('driver_id',$request->driver_id)
             ->whereIn('status',[1,2,3])
             ->where('is_scheduled','!=',1)
@@ -1120,10 +1130,16 @@ class TripController extends Controller
                     ->Where('is_scheduled', 1);
             })
             ->first();
+        $user = User::find($request->driver_id);
+
+        $lastTripNotSeen = Trip::with('carType','driver')
+            ->where('status',0)
+            ->where('car_type_id',$user->car_->car_type)->orderBy('id','DESC')->first();
+
         $nextScheduledTrip = 0;
         $price = 0;
         //connected
-        $user = User::find($request->driver_id);
+
         $driver = Driver::where('user_id',$user->id)->first();
         //see if he has alert not seen and send older one
         $driverAlert = DriverAlert::where('driver_id',$request->driver_id)->where('seen',0)->first();
@@ -1161,10 +1177,10 @@ class TripController extends Controller
                 "message" => "Active Trips",
                 'data'=> [
                     'Trip' => $activeTrip,
-                    'estimatedPrice'=>$price,
+                    'estimatedPrice'=> $price,
                     'alert' => ($driverAlert)?$driverAlert:'',
-                    'distance'=>$distance,
-                    'is_connected'=>$driver->is_connected,
+                    'distance'=> $distance,
+                    'is_connected'=> $driver->is_connected,
                     'daily_kpi'=>$daily_kpi,
                     'balance' => $balance,
                     'is_balance_finished' => ($isBalanceFinished>=0)?0:1,
@@ -1181,8 +1197,8 @@ class TripController extends Controller
                     'english_error' => ' No trips!!',
                     'arabic_result' => '',
                     'english_result' => '',
-                    'is_connected'=>$driver->is_connected,
-                    'daily_kpi'=>$daily_kpi,
+                    'is_connected' => $driver->is_connected,
+                    'daily_kpi' => $daily_kpi,
                     'balance' => $balance,
                     'num_of_renew_requests' =>$numOfRenewRequests
                 ]
@@ -1473,13 +1489,8 @@ class TripController extends Controller
 
     public function test()
     {
-        $date = Carbon::parse('2024-05-15 16:50:41');
-
-        if ($date->isFuture()) {
-            echo 'The date is in the future.';
-        } else {
-            echo 'The date is in the past.';
-        }
+        $tripDriver = new TripDriverSeen();
+        $tripDriver->create(['trip_id'=>5,'driver_id'=>6]);
     }
 
 

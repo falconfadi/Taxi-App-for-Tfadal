@@ -404,7 +404,7 @@
                   </ul>
               </li>
            @endif
-          @if(in_array('companies',$permissionsNames) )
+          @if(in_array('company',$permissionsNames) )
             <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather='bar-chart'></i><span class="menu-title text-truncate" data-i18n="eCommerce">{{Auth::guard('admin')->user()->name}}</span></a>
                 <ul class="menu-content">
                     <li><a class="d-flex align-items-center" href="{{url('company/edit/')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Shop">{{__('menus.company_profile')}}</span></a>

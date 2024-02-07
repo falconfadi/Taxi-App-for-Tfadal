@@ -11,6 +11,7 @@ use App\Models\Rate_trip;
 use App\Models\Setting;
 use App\Models\Trip;
 use App\Models\TripDetails;
+use App\Models\TripDriverSeen;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -142,6 +143,13 @@ class MultiTripController extends Controller
         $trip = Trip::with('carType','driver')->where('id',$request->trip_id)->first();
         if ($trip)
         {
+            //check if driver see trip
+            $isDriverSeeTrip = TripDriverSeen::where('trip_id',$request->trip_id)->where('driver_id',$trip->driver_id);
+            if(!$isDriverSeeTrip){
+                $tripDriver = new TripDriverSeen();
+                $tripDriver->create(['trip_id'=>$request->trip_id,'driver_id'=>$trip->driver_id]);
+            }
+
             $carObj = new CarController();
             $driver = User::find($trip->driver_id);
             $expectedTimeToArriveDriver = 0;
