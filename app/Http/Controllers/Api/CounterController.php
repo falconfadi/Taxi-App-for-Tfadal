@@ -14,28 +14,19 @@ class CounterController extends Controller
     public function updateCounter(Request $request){
 
         $carObj = new CarController();
-        $counter = new Counter();
 
+        $counter = new Counter();
         $trip = Trip::find($request->trip_id);
         if($trip->status==3){
             $record = $counter->getLatestCounter($request->trip_id, $request->driver_id);
             //$counter = new Counter();
             $tripObj = new TripController();
             if($record){
-                $distance =  floatval($carObj->directDistance($record->latitude, $record->longitude, $request->latitude, $request->longitude, 1.3));
+                $distance =  floatval($carObj->openStreetMapDistance($record->latitude, $record->longitude, $request->latitude, $request->longitud));
                 $validateCoordinate = $this->validateCoordinates($distance,$record->created_at);
                 if($distance>0.006 && $counter->latitude!=$request->latitude ){
-                    $counter->latitude = $request->latitude;
-                    $counter->longitude = $request->longitude;
-                    $counter->distance = $distance;
-                    $counter->counter = $record->counter+1;
-                    $counter->user_id = $request->driver_id;
-                    $counter->price =  round($tripObj->PricePerKilometer($distance, $trip->carType->price),2) ;
-                    //$whole_price = (float)$counter->price + (float)$record->whole_price;
-                    $counter->whole_price = round((float)$counter->price + (float)$record->whole_price,2);
-                    $counter->whole_distance = $distance + (float)$record->whole_distance;
-                    $counter->trip_id = $request->trip_id;
-                    $counter->save();
+                    $this->addItem($tripObj, $counter, $request->latitude, $request->longitude, $distance, $record, $trip);
+
                     $counter->whole_distance = round($distance + (float)$record->whole_distance,3);
                 }else{
                     $counter = $record;
@@ -49,7 +40,7 @@ class CounterController extends Controller
                 $counter->distance = $distance;
                 $counter->counter = 0;
                 $counter->user_id = $request->driver_id;
-                //$tripObj = new TripController();
+
                 $counter->price =  $tripObj->preEstimatePrice($distance , $trip->carType->price) ;
                 $counter->whole_price = $counter->price ;
                 $counter->whole_distance = $distance ;
@@ -139,5 +130,19 @@ class CounterController extends Controller
         }else{
             return false;
         }
+    }
+
+    public function addItem($tripObj, $counter, $latitude, $longitude, $distance, $record, $trip){
+        $counter->latitude = $latitude;
+        $counter->longitude = $longitude;
+        $counter->distance = $distance;
+        $counter->counter = $record->counter+1;
+        $counter->user_id = $trip->driver_id;
+        $counter->price =  round($tripObj->PricePerKilometer($distance, $trip->carType->price),2) ;
+        //$whole_price = (float)$counter->price + (float)$record->whole_price;
+        $counter->whole_price = round((float)$counter->price + (float)$record->whole_price,2);
+        $counter->whole_distance = $distance + (float)$record->whole_distance;
+        $counter->trip_id = $trip->id;
+        $counter->save();
     }
 }

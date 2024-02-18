@@ -12,13 +12,7 @@
     <!-- users list start -->
     <section class="app-user-list">
         <!-- users filter start -->
-        <div class="card">
-            <div class="d-flex justify-content-between align-items-center mx-50 row pt-0 pb-2">
-                <div class="col-md-4 user_role"></div>
-                <div class="col-md-4 user_plan"></div>
-                <div class="col-md-4 user_status"></div>
-            </div>
-        </div>
+
         @if(Session::has('alert-success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <div class="alert-body">
@@ -31,6 +25,15 @@
         @endif
         <!-- users filter end -->
         <!-- list section start -->
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-left mb-0">{{__('menus.companies')}}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="card">
             <div class="card-header">
                 <h5 class="card-title">{{$title}}</h5>

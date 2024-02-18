@@ -33,6 +33,8 @@ class UserController extends Controller
         $freezeReason = new FreezeReason();
         $permissionsNames = $this->permissionsNames;
         $isAdmin = $this->isAdmin ;
+        $trip = new Trip();
+        $trips = $trip->getTripsCountByUsers();
         if ($request->ajax()) {
             //$data = User::select('*');
             $data = $u->getAllUsers();
@@ -72,7 +74,6 @@ class UserController extends Controller
                                                 <span>'.__('page.Un_Freeze').'</span>
                                             </a>';
                         }
-
                     }
                     if(!$user->note)
                     if(in_array('add_note_user',$permissionsNames) || $isAdmin) {
@@ -98,11 +99,20 @@ class UserController extends Controller
                         </div>';
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->addColumn('gender', function($user)  {
+                    $gender = ($user->gender!=0)?($user->gender==1)?__('page.male'):__('page.female'):'';
+                    return $gender;
+                })
+                ->addColumn('sum_trip_acheived', function($user) use($trips) {
+                    $sumOftrips = $trips->filter(function ($userTrip)use($user) {
+                    return $userTrip->user_id==$user->id;
+                })->first()->trip_count??0;
+                    return $sumOftrips;
+                })
+
+                ->rawColumns(['action','gender'])
                 ->make(true);
         }
-
-
         return view('admin.users.index1',compact('users','title','careers'));
     }
 

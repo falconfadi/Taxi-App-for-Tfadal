@@ -499,15 +499,9 @@
     <script src="{{ asset('admin/app-assets/js/core/app-menu.min.js')}}"></script>
     <script src="{{ asset('admin/app-assets/js/core/app.min.js')}}"></script>
     <script src="{{ asset('admin/app-assets/js/scripts/customizer.min.js')}}"></script>
-    <script src="{{asset('admin/app-assets/js/scripts/pages/app-user-list.min.js')}}"></script>
+    <script src="{{ asset('admin/app-assets/js/scripts/pages/app-user-list.min.js')}}"></script>
 
-    <script>
-        $(document).on('click', '#add_car', function(){
-            //alert( "Handler for .click() called." );
-            $('#modals-slide-in').modal('toggle');
-            $('#modals-slide-in').modal('show');
-        });
-    </script>
+
     @stack('richtext')
 
 

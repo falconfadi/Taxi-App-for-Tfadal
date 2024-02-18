@@ -50,7 +50,7 @@ class CompanyController extends Controller
 
     public function edit()
     {
-        $title =  __('menus.companies');
+        $title =  __('menus.company_profile');
         //$id = $this->getUser();
         $company = Auth::guard('admin')->user();//Admin::with('company')->where('admin_id',$id)->first();
         //Auth::guard('admin')->user()->id;
@@ -177,7 +177,7 @@ class CompanyController extends Controller
         //$user = User::where('phone',$request->phone_)->first();
 
         $trip = new Trip();
-        $trip->user_id = $request->users[0];
+        $trip->user_id = $request->users_id;
         $trip->latitude_from = $trip->truncate($request->latitude_from,10);
         $trip->longitude_from = $trip->truncate($request->longitude_from,10) ;
         $trip->latitude_to =  $trip->truncate($request->latitude_to,10) ;

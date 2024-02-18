@@ -51,48 +51,8 @@
             <div class="col-xl-12 col-lg-8 col-md-7">
                 <div class="card user-card">
                     <div class="card-body">
-                        <div class="row" style="height: 500px">
-                            <style>
-                                #map2 {
-                                    height: 100%;
-                                    width: 100%;
-                                    margin: 0px;
-                                    padding: 0px
-                                }
-                            </style>
-                            <script async defer
-                                    src="https://maps.googleapis.com/maps/api/js?key=<?=$key?>&callback=initMap">
-                            </script>
-                            <script>
-                                function initMap() {
-                                    var map = new google.maps.Map(document.getElementById('map2'), {
-                                        zoom: 10,
-                                        center: {lat: 33.520556, lng: 36.296049}
-                                    });
-                                    setMarkers(map);
-                                }
-                                var locations = <?php echo json_encode($driversCoordinatesArray); ?>
-
-                               // console.log(locations);
-                                var image = '<?php echo url('storage/car-svgrepo-com.svg'); ?>';
-                                function setMarkers(map) {
-                                    for (var i = 0; i < locations.length; i++) {
-                                        var beach = locations[i];
-                                        var marker = new google.maps.Marker({
-                                            position: {lat: beach[1], lng: beach[2]},
-                                            map: map,
-                                            title: beach[0],
-                                            zIndex: beach[3],
-
-                                        });
-                                    }
-                                }
-                            </script>
-
-                            <div class="col-xl-12 col-lg-12 mt-2 mt-xl-0">
-                                @if(!empty($driversCoordinatesArray))   <div id="map2" ></div> @endif
-                            </div>
-
+                        <div class="row" style="height: 400px">
+                            <img src="{{url('storage/'.$setting->logo)}}" style="height: 400px;margin: 0px auto;">
                         </div>
                     </div>
                 </div>
@@ -111,7 +71,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($driverCoordinates as $driver)
+                        @foreach($drivers as $driver)
                             <tr>
                                 <td><a href="{{url('admin/drivers/view/'.$driver->driver_details_id)}}" target="_blank">{{$driver->name}} {{$driver->father_name}} {{$driver->last_name}}</a></td>
                             </tr>

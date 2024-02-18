@@ -13,7 +13,7 @@
     </div>
     <div class="content-body"><!-- Basic Inputs start -->
         <section id="basic-input">
-            <form action="{{url('admin/update-compensation')}}" method="post" >
+            <form action="{{url('admin/update_compensation_')}}" method="post" >
                 @csrf
             <div class="row">
                 <div class="col-md-12">

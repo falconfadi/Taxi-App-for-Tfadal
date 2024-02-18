@@ -76,11 +76,12 @@ class DriverCompensationController extends Controller
 
     public function update(Request $request)
     {
+        //var_dump($request->all());exit();
         $comp = DriverCompensation::find($request->id);
         $c = new \App\Http\Controllers\Api\CarController();
         $trip = Trip::find($comp->trip_id);
         $distance = $c->openStreetMapDistance($request->input('latitude'),$request->input('longitude'),$trip->latitude_from,$trip->longitude_from);
-
+       // echo $distance;
         $comp->distance = $distance;
         $comp->latitude = $request->input('latitude');
         $comp->longitude = $request->input('longitude');
@@ -89,7 +90,7 @@ class DriverCompensationController extends Controller
         $amount = $c->roundUp($driverCompensation);
         $comp->amount = $amount;
         //$comp->save();
-
+       // echo "-".$amount;
         if ($comp->save()) {
             Session::flash('alert-success','Car Type has been Updated');
             return redirect('admin/update-compensation/'.$trip->serial_num);

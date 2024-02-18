@@ -90,13 +90,11 @@ class CarController extends Controller
             $carsValues = array();
             $distance = ($distance > 1)? $distance:1;
             if($distance>=10 && $distance<=20) {
-                $distance *= 1.05;
+                $distance *= $this->tSetting->factory_price;
             }
             foreach ($carTypes as $carType){
 
                 $tripObj = new TripController();
-
-
 
                 $estimatedPrice = $tripObj->preEstimatePrice($distance , (int)$carType->price);
                 $carsValue =  new stdClass();
@@ -552,8 +550,8 @@ class CarController extends Controller
         $comp4 = new DriverCompensation();
         $compensationPerKilo  = $this->setting->compensation_driver_per_kilo;
        // echo $compensationPerKilo;
-        $trip0 = Trip::find(2240);
-        $comp1->addItem(33.4875693, 36.296328, $trip0, $compensationPerKilo);
+        //$trip0 = Trip::find(2240);
+       // $comp1->addItem(33.4875693, 36.296328, $trip0, $compensationPerKilo);
 
 //        $trip1 = Trip::find(2263);
 //        $comp2->addItem(33.5318339, 36.1879576, $trip1, $compensationPerKilo);
@@ -563,6 +561,7 @@ class CarController extends Controller
 //
 //        $trip3 = Trip::find(2285);
 //        $comp4->addItem(33.5318984, 36.1799429, $trip3, $compensationPerKilo);
+        echo $this->tSetting->factory_price;
 
 
     }

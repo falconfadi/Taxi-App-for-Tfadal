@@ -1,8 +1,8 @@
 @extends('layouts/admin')
 @push('datatableheader')
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-
+{{--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />--}}
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 
 @endpush
 @section('content')
@@ -36,7 +36,7 @@
             <div class="card-header border-bottom">
                 <h5 class="card-title">{{$title}}</h5>
                 @if(in_array('delete_token_user',$permissionsNames) || $isAdmin)
-                <button class="btn btn-primary waves-effect waves-float waves-light" id="add_car">{{__('label.delete_token')}}</button>
+                <button class="btn btn-primary waves-effect waves-float waves-light" data-toggle="modal" data-target="#modals-slide-in" id="add_car">{{__('label.delete_token')}}</button>
                 @endif
             </div>
 
@@ -45,17 +45,19 @@
                     <thead>
                     <tr>
 
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th width="100px">Action</th>
+                        <th>{{__('page.Name')}}</th>
+                        <th>{{__('page.Phone')}}</th>
+                        <th>{{__('page.gender')}}</th>
+                        <th>{{__('page.Address')}}</th>
+                        <th>{{__('menus.created_at')}}</th>
+                        <th>{{__('label.sum_trip_acheived')}}</th>
+                        <th width="100px">{{__('page.Actions')}}</th>
                     </tr>
                     </thead>
                     <tbody>
                     </tbody>
                 </table>
             </div>
-
-
         </div>
 
 
@@ -156,28 +158,28 @@
 @endsection
 
 @push('datatablefooter')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
-    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
-{{--    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">--}}
+
+    {{--    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">--}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 {{--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>--}}
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <style>
-        div.dataTables_wrapper {
-            direction: rtl;
-        }
+
         th, td{
             white-space: nowrap;
         }
-        .dataTables_length {
-            float: right;
+        #example_wrapper .row:first-child{
+            direction: ltr;
         }
-        .dataTables_filter {
-            float: right;
-            text-align: right;
-        }
+        /*.dataTables_length {*/
+        /*    float: right;*/
+        /*}*/
+        /*.dataTables_filter {*/
+        /*    float: right;*/
+        /*    text-align: right;*/
+        /*}*/
 
         .dataTables_info {
             float: right;
@@ -213,9 +215,15 @@
             $('#userId').val(this.getAttribute('data-value'));
         });
     </script>
+    <script>
+        $(document).on('click', '#add_car', function(){
+            //alert( "Handler for .click() called." );
+            $('#modals-slide-in').modal('toggle');
+            $('#modals-slide-in').modal('show');
+        });
+    </script>
     <script type="text/javascript">
         $(function () {
-
             var table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
@@ -223,6 +231,10 @@
                 columns: [
                     {data: 'name', name: 'name'},
                     {data: 'phone', name: 'phone'},
+                    {data: 'gender', name: 'gender'},
+                    {data: 'address', name: 'address'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'sum_trip_acheived', name: 'sum_trip_acheived'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
             });

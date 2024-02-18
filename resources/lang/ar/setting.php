@@ -23,6 +23,8 @@ return [
     'time_to_move_to_other_circle' => 'فترة الانتقال إلى الدائرة الأخرى(ثانية)',
     'min_amount_to_stop_driver' => 'الحد الأدنى المالي لرصيد الكابتن',
     'gift_captain_girl' => 'هدية كابتن أنثى',
-    'distance_compensation_scheduled' => 'تعويض المسافة للرحلة المجدولة '
+    'distance_compensation_scheduled' => 'تعويض المسافة للرحلة المجدولة ',
+    'distance_factory' => 'معامل المسافة',
+    'gift_captain_male' => 'هدية كابتن ذكر'
 
 ];

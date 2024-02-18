@@ -233,86 +233,27 @@
   </div>
   <!-- User Card & Plan Ends -->
 
-
     <div class="row">
         <!-- User Card starts-->
         <div class="col-xl-12 col-lg-8 col-md-7">
             <div class="card user-card">
                 <div class="card-body">
-                    <div class="row" style="height: 500px">
-                        <style>
-                            #map2 {
-                                height: 100%;
-                                width: 100%;
-                                margin: 0px;
-                                padding: 0px
-                            }
-                        </style>
-
-                        <script src="https://maps.googleapis.com/maps/api/js?key=<?=$key?>&callback=initAutocomplete"></script>
-                        <script>
-                            var geocoder;
-                            var map;
-                            var directionsDisplay;
-                            var directionsService = new google.maps.DirectionsService();
-
-                                var locations = <?php echo json_encode($driverCoordinatesArray); ?>;
-                            function initialize() {
-                                directionsDisplay = new google.maps.DirectionsRenderer();
-
-
-                                var map = new google.maps.Map(document.getElementById('map2'), {
-                                    zoom: 10,
-                                    center: new google.maps.LatLng(<?=$centerLat?>, <?=$centerLon?>),
-                                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                                });
-                                directionsDisplay.setMap(map);
-                                var infowindow = new google.maps.InfoWindow();
-
-                                var marker, i;
-                                var request = {
-                                    travelMode: google.maps.TravelMode.DRIVING
-                                };
-                                for (i = 0; i < locations.length; i++) {
-                                    marker = new google.maps.Marker({
-                                        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                                    });
-
-                                    google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                                        return function() {
-                                            infowindow.setContent(locations[i][0]);
-                                            infowindow.open(map, marker);
-                                        }
-                                    })(marker, i));
-
-                                    if (i == 0) request.origin = marker.getPosition();
-                                    else if (i == locations.length - 1) request.destination = marker.getPosition();
-                                    else {
-                                        if (!request.waypoints) request.waypoints = [];
-                                        request.waypoints.push({
-                                            location: marker.getPosition(),
-                                            stopover: true
-                                        });
-                                    }
-                                }
-                                directionsService.route(request, function(result, status) {
-                                    if (status == google.maps.DirectionsStatus.OK) {
-                                        directionsDisplay.setDirections(result);
-                                    }
-                                });
-                            }
-                            // google.maps.event.addDomListener(window, "load", initialize);
-                            window.addEventListener( "load", initialize);
-                            //google.maps.event.addDomListener(window, "load", initialize);
-                        </script>
-
-                        <div class="col-xl-8 col-lg-6 mt-2 mt-xl-0">
-                         @if($activeMap)   <div id="map2" style="position: static"></div> @endif
-                        </div>
+                    <div class="row" style="height: 360px">
                         <div class="col-xl-4 col-lg-6 mt-2 mt-xl-0">
                             <div class="card">
-                                <div class="card-header border-bottom"><!--href="{{url('admin/alert_driver/'.$trip->id)}}"-->
-                                    <a class="btn btn-adn alert-button"  data-toggle="modal" data-target="#new-folder-modal"  data-value="{{$trip->id}}">تحذير الكابتن</a>
+                                <div class="card-header ">
+                                    <a class="btn btn-adn dropdown-item text-center alert-button mb-2"  data-toggle="modal" data-target="#new-folder-modal"  data-value="{{$trip->id}}">تحذير الكابتن</a>
+                                    <a class="dropdown-item btn btn-primary text-center" data-toggle="modal" data-target="#xlarge"    >
+                                        <i data-feather='map' class="mr-50"></i>
+                                        <span>{{__('label.show_map')}}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-6 mt-2 mt-xl-0">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="text-center mb-0" ><b>#{{$trip->serial_num}}</b></h4>
                                 </div>
 
                                 <div class="col-xl-12 col-lg-12 mt-2 mt-xl-0">
@@ -528,36 +469,122 @@
 </section>
         </div>
 
-        <!-- alert driver-->
-        <div class="modal fade" id="new-folder-modal">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title"><b>إرسال تحذير</b></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form action="{{url('admin/alert_driver/')}}" method="post">
-                        @csrf
-                        <div class="modal-body">
-                            <label>النص</label>
-{{--                            <input type="text" class="form-control" name="text" placeholder="" required />--}}
-                            <select class="form-control" id="basicSelect" name="text">
-                                @foreach($alerts as $alert)
-                                <option value="{{$alert->text}}">{{$alert->text}}</option>
-                                @endforeach
-                            </select>
-                            <input type="hidden" name="trip_id" id="trip_id" >
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary mr-1" >{{__('label.send')}}</button>
-                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">{{__('page.Cancel')}}</button>
-                        </div>
-                    </form>
-                </div>
+<!-- alert driver-->
+<div class="modal fade" id="new-folder-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><b>إرسال تحذير</b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <form action="{{url('admin/alert_driver/')}}" method="post">
+                @csrf
+                <div class="modal-body">
+                    <label>النص</label>
+{{--                            <input type="text" class="form-control" name="text" placeholder="" required />--}}
+                    <select class="form-control" id="basicSelect" name="text">
+                        @foreach($alerts as $alert)
+                        <option value="{{$alert->text}}">{{$alert->text}}</option>
+                        @endforeach
+                    </select>
+                    <input type="hidden" name="trip_id" id="trip_id" >
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary mr-1" >{{__('label.send')}}</button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">{{__('page.Cancel')}}</button>
+                </div>
+            </form>
         </div>
+    </div>
+</div>
+
+<!-- show map -->
+<div class="modal fade" id="xlarge" tabindex="-1" role="dialog"  aria-labelledby="myModalLabel16" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 900px">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <style>
+                    #map2 {
+                        height: 500px;
+                        width: 860px;
+                        margin: 0px;
+                        padding: 0px
+                    }
+                </style>
+
+                <script src="https://maps.googleapis.com/maps/api/js?key=<?=$key?>&callback=initAutocomplete"></script>
+                <script>
+                    var geocoder;
+                    var map;
+                    var directionsDisplay;
+                    var directionsService = new google.maps.DirectionsService();
+
+                    var locations = <?php echo json_encode($driverCoordinatesArray); ?>;
+                    function initialize() {
+                        directionsDisplay = new google.maps.DirectionsRenderer();
+
+
+                        var map = new google.maps.Map(document.getElementById('map2'), {
+                            zoom: 10,
+                            center: new google.maps.LatLng(<?=$centerLat?>, <?=$centerLon?>),
+                            mapTypeId: google.maps.MapTypeId.ROADMAP
+                        });
+                        directionsDisplay.setMap(map);
+                        var infowindow = new google.maps.InfoWindow();
+
+                        var marker, i;
+                        var request = {
+                            travelMode: google.maps.TravelMode.DRIVING
+                        };
+                        for (i = 0; i < locations.length; i++) {
+                            marker = new google.maps.Marker({
+                                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                            });
+
+                            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                                return function() {
+                                    infowindow.setContent(locations[i][0]);
+                                    infowindow.open(map, marker);
+                                }
+                            })(marker, i));
+
+                            if (i == 0) request.origin = marker.getPosition();
+                            else if (i == locations.length - 1) request.destination = marker.getPosition();
+                            else {
+                                if (!request.waypoints) request.waypoints = [];
+                                request.waypoints.push({
+                                    location: marker.getPosition(),
+                                    stopover: true
+                                });
+                            }
+                        }
+                        directionsService.route(request, function(result, status) {
+                            if (status == google.maps.DirectionsStatus.OK) {
+                                directionsDisplay.setDirections(result);
+                            }
+                        });
+                    }
+                    // google.maps.event.addDomListener(window, "load", initialize);
+                    window.addEventListener( "load", initialize);
+                    //google.maps.event.addDomListener(window, "load", initialize);
+                </script>
+
+                <div class="col-xl-6 col-lg-6 mt-2 mt-xl-0">
+                    @if($activeMap)   <div id="map2" style="position: static"></div> @endif
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">{{__('page.Cancel')}}</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @endsection
 @push('view-page-css')
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css/pages/app-user.min.css')}}">

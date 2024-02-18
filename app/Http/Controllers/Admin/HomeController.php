@@ -43,19 +43,18 @@ class HomeController extends Controller
         $setting = $this->setting;
         $appTitle = ($local=='ar')?$setting->title_ar:$setting->title;
 
-        $key = env('GOOGLE_MAPS_API_KEY');
 
-        $coor = new Coordinate();
-        $driverCoordinates = $coor->driversLastLocation( );
+        $coor = new User();
+        $drivers = $coor->getConnectedDrivers( );
 
-        $driversCoordinatesArray = array();
-        $i=0;
-        foreach ($driverCoordinates as $coordinte){
-            $driversCoordinatesArray[$i] = [$coordinte->name,floatval($coordinte->latitude) , floatval($coordinte->longitude) ,$i+1 ];
-            $i++;
-           // $driversNames = $coordinte->name." ".$coordinte->father_name." ".$coordinte->last_name;
-        }
-        return view('admin.home',compact('title','appTitle','driversCoordinatesArray','key','driverCoordinates'));
+//        $driversCoordinatesArray = array();
+//        $i=0;
+//        foreach ($driverCoordinates as $coordinte){
+//            $driversCoordinatesArray[$i] = [$coordinte->name,floatval($coordinte->latitude) , floatval($coordinte->longitude) ,$i+1 ];
+//            $i++;
+//
+//        }
+        return view('admin.home',compact('title','appTitle','drivers'));
     }
 
     public function changePassword(){

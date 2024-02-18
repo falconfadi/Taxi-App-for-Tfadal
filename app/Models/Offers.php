@@ -130,7 +130,7 @@ class Offers extends Model
                 ->whereDate('start_time','<=',Carbon::today());
         })
         ->first();
-        $discount = 0; $freeTrip= false;
+        $discount = 0; $freeTrip = false;
         if($offer){
             if($offer->type == 0){
                 //offer with multi trips

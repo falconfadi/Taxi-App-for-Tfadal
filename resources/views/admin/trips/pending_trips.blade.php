@@ -36,54 +36,13 @@
 
         <div class="card user-card">
             <div class="card-header border-bottom">
-                <h5 class="card-title">{{__('label.available_drivers')}}</h5>
+
+                <a class="dropdown-item btn btn-primary text-center" data-toggle="modal" data-target="#xlarge"    >
+                    <i data-feather='map' class="mr-50"></i>
+                    <span>{{__('label.available_drivers_map')}}</span>
+                </a>
             </div>
-            <div class="card-body">
-                <div class="row" style="height: 500px">
-                    <style>
-                        #map2 {
-                            height: 100%;
-                            width: 100%;
-                            margin: 0px;
-                            padding: 0px
-                        }
-                    </style>
-                    <script async defer
-                            src="https://maps.googleapis.com/maps/api/js?key=<?=$key?>&callback=initMap">
-                    </script>
-                    <script>
-                        function initMap() {
-                            var map = new google.maps.Map(document.getElementById('map2'), {
-                                zoom: 10,
-                                center: {lat: 33.520556, lng: 36.296049}
-                            });
 
-                            setMarkers(map);
-                        }
-                        var locations = <?php echo json_encode($driversCoordinatesArray); ?>
-
-                        // console.log(locations);
-                        var image = '<?php echo url('storage/car-svgrepo-com.svg'); ?>';
-                        function setMarkers(map) {
-                            for (var i = 0; i < locations.length; i++) {
-                                var beach = locations[i];
-                                var marker = new google.maps.Marker({
-                                    position: {lat: beach[1], lng: beach[2]},
-                                    map: map,
-                                    title: beach[0],
-                                    zIndex: beach[3],
-
-                                });
-                            }
-                        }
-                    </script>
-
-                    <div class="col-xl-12 col-lg-12 mt-2 mt-xl-0">
-                        @if(!empty($driversCoordinatesArray))   <div id="map2" ></div> @endif
-                    </div>
-
-                </div>
-            </div>
         </div>
 
 
@@ -159,7 +118,70 @@
 
 </div>
 
+<!-- show map -->
+<div class="modal fade" id="xlarge" tabindex="-1" role="dialog"  aria-labelledby="myModalLabel16" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><b> {{__('label.available_drivers')}}</b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
+                <div class="modal-body">
+                    <div class="row" style="height: 500px">
+                        <style>
+                            #map2 {
+                                height: 100%;
+                                width: 855px;
+                                margin: 0px;
+                                padding: 0px
+                            }
+                        </style>
+                        <script async defer
+                                src="https://maps.googleapis.com/maps/api/js?key=<?=$key?>&callback=initMap">
+                        </script>
+                        <script>
+                            function initMap() {
+                                var map = new google.maps.Map(document.getElementById('map2'), {
+                                    zoom: 10,
+                                    center: {lat: 33.520556, lng: 36.296049}
+                                });
+
+                                setMarkers(map);
+                            }
+                            var locations = <?php echo json_encode($driversCoordinatesArray); ?>
+
+                            // console.log(locations);
+                            var image = '<?php echo url('storage/car-svgrepo-com.svg'); ?>';
+                            function setMarkers(map) {
+                                for (var i = 0; i < locations.length; i++) {
+                                    var beach = locations[i];
+                                    var marker = new google.maps.Marker({
+                                        position: {lat: beach[1], lng: beach[2]},
+                                        map: map,
+                                        title: beach[0],
+                                        zIndex: beach[3],
+                                    });
+                                }
+                            }
+                        </script>
+
+                        <div class="col-xl-12 col-lg-12 mt-2 mt-xl-0">
+                            @if(!empty($driversCoordinatesArray))   <div id="map2" ></div> @endif
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">{{__('page.Cancel')}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!-- add cancel reason -->
 <div class="modal fade" id="cancel-trip-with-reason">
     <div class="modal-dialog modal-dialog-centered">

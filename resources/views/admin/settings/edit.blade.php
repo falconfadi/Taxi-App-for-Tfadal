@@ -283,6 +283,12 @@
                                         <input type="number" class="form-control" id="schedule_trip_discount"  name="schedule_trip_discount" value="{{$tSetting->schedule_trip_discount}}" />
                                     </div>
                                 </div>
+                                <div class="col-xl-4 col-md-6 col-12 mb-1">
+                                    <div class="form-group">
+                                        <label for="factory_price">{{__('setting.distance_factory')}}</label>
+                                        <input type="text" class="form-control" id="factory_price"  name="factory_price" value="{{$tSetting->factory_price}}" />
+                                    </div>
+                                </div>
 
 
                                 <div class="col-xl-12 col-md-6 col-12 mb-1">
@@ -364,6 +370,13 @@
                                         <input type="number" class="form-control" id="distance_compensation_scheduled" name="distance_compensation_scheduled" value="{{$tSetting->distance_compensation_scheduled}}" min="0" />
                                     </div>
                                 </div>
+                                <div class="col-xl-6 col-md-6 col-12 mb-1">
+                                    <div class="form-group">
+                                        <label  for="gift_captain_male">{{__('setting.gift_captain_male')}}</label>
+                                        <input type="number" class="form-control" id="gift_captain_male" name="gift_captain_male" value="{{$tSetting->gift_captain_male}}" min="0" />
+                                    </div>
+                                </div>
+
                             </div>
 
                             <div class="row">

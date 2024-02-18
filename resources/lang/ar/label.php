@@ -120,14 +120,17 @@ return [
     'pos_single' => 'نقطة البيع',
     'schedule_trip_offer' => 'عرض رحلة لاحقة',
     'schedule_trip_discount' => 'تعويض عرض اللاحقة',
-    'female_captain_extra' => 'تعويض عرض اللاحقة',
+    'female_captain_extra' => 'تعويض كابتن أنثى',
     'time_of_create_trip' => 'تاريخ إنشاء الطلب',
     'fourth_win_offer' => 'عرض الأربعة تربح',
     'edit_note' => 'تعديل الملاحظة',
     'expected_distance' => 'المسافة المتوقعة',
 
     'expected_duration' => 'الزمن المتوقع',
-    'confirm' => 'تأكيد'
+    'confirm' => 'تأكيد',
+    'show_map' => 'إظهار الخارطة',
+    'available_drivers_map' => 'إظهار خارطة الكباتن المتاحين',
+    'male_captain_extra' => 'تعويض كابتن رجل'
 
 
 

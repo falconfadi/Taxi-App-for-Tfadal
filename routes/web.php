@@ -118,11 +118,11 @@ Route::group(['middleware' => ['auth:admin']], function() {
         Route::get('user_trips/{id}', 'Admin\UserController@userTrips');
 
         //notifications admin
-        Route::get('notifications', [App\Http\Controllers\Admin\NotificationsController::class, 'index']);
-        Route::get('drivers_notifications', [App\Http\Controllers\Admin\NotificationsController::class, 'driversNotifications']);
-        Route::get('notifications/delete/{id}', [App\Http\Controllers\Admin\NotificationsController::class, 'destroy']);
-        Route::post('notifications/store', [App\Http\Controllers\Admin\NotificationsController::class, 'sendNotification']);
-        Route::post('notifications/drivers_store', [App\Http\Controllers\Admin\NotificationsController::class, 'sendNotificationDrivers']);
+        Route::get('notifications', [\App\Http\Controllers\Admin\NotificationsController::class, 'index']);
+        Route::get('drivers_notifications', [\App\Http\Controllers\Admin\NotificationsController::class, 'driversNotifications']);
+        Route::get('notifications/delete/{id}', [\App\Http\Controllers\Admin\NotificationsController::class, 'destroy']);
+        Route::post('notifications/store', [\App\Http\Controllers\Admin\NotificationsController::class, 'sendNotification']);
+        Route::post('notifications/drivers_store', [\App\Http\Controllers\Admin\NotificationsController::class, 'sendNotificationDrivers']);
 
         //trips
         Route::get('trips', [\App\Http\Controllers\Admin\TripController::class,'index']);
@@ -197,7 +197,7 @@ Route::group(['middleware' => ['auth:admin']], function() {
 
         Route::get('driver-compensation', [\App\Http\Controllers\Admin\DriverCompensationController::class,'index']);
         Route::get('update-compensation/{tripSerialNum}', [\App\Http\Controllers\Admin\DriverCompensationController::class,'edit']);
-        Route::post('update-compensation', [\App\Http\Controllers\Admin\DriverCompensationController::class,'update']);
+        Route::post('update_compensation_', [\App\Http\Controllers\Admin\DriverCompensationController::class,'update']);
 
 
 
@@ -417,7 +417,7 @@ Route::get('test0',[\App\Http\Controllers\Api\TestController::class,'test0']);
 Route::get('test',[\App\Http\Controllers\Api\TestController::class,'test1']);
 Route::get('test3',[\App\Http\Controllers\Admin\TripController::class,'test']);
 //Route::get('test1',[\App\Http\Controllers\Admin\DriverController::class,'test']);
-//Route::get('test2',[\App\Http\Controllers\Api\CarController::class,'test']);
+Route::get('test2',[\App\Http\Controllers\Api\CarController::class,'test']);
 Route::get('test4',[\App\Http\Controllers\Api\TripController::class,'test']);
 //Route::get('test4',[\App\Http\Controllers\PointLocationController::class,'test']);
 //Route::get('test5',[\App\Http\Controllers\Admin\OffersController::class,'test']);

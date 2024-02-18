@@ -28,7 +28,7 @@ class BalanceController extends Controller
             '1'=>__('label.renew'),
             '2'=>__('label.user_discount'),
             '3'=>__('label.trip_'),'4'=>__('label.distance_compensation'),'5'=>__('label.schedule_trip_discount')
-                ,'6'=>__('label.female_captain_extra'));
+                ,'6'=>__('label.female_captain_extra'), '7'=>__('label.male_captain_extra'));
 
     }
     public function index()

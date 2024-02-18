@@ -355,10 +355,9 @@ class TripController extends Controller
         if ($trip)
         {
             //check if driver see trip
-            $isDriverSeeTrip = TripDriverSeen::where('trip_id',$request->trip_id)->where('driver_id',$trip->driver_id);
+            $isDriverSeeTrip = TripDriverSeen::where('trip_id',$request->trip_id)->where('driver_id',$request->user_id)->first();
             if(!$isDriverSeeTrip){
-                $tripDriver = new TripDriverSeen();
-                $tripDriver->create(['trip_id'=>$request->trip_id,'driver_id'=>$trip->driver_id]);
+                TripDriverSeen::create(['trip_id'=>$request->trip_id,'driver_id'=>$request->user_id]);
             }
             $carObj = new CarController();
             $driver = User::find($trip->driver_id);
@@ -690,8 +689,8 @@ class TripController extends Controller
                     $title = "الموافقة على الرحلة";
                     $notificationObj->sendNotifications($trip->user_id, $title, $body,$data);
 
-                    $x = new  Notification();
-                    $x->saveNotification([$trip->user_id],$title,2, $body,0,0);
+//                    $x = new  Notification();
+//                    $x->saveNotification([$trip->user_id],$title,2, $body,0,0);
 
                     return response()->json([
                         "message" => "successfully approved",
@@ -886,8 +885,6 @@ class TripController extends Controller
             $trip->arrive_to_customer_time = Carbon::now();
             $trip->status = 2;
             $trip->update();
-
-
 
 
             //send notification to USER that his trip accepted
@@ -1131,10 +1128,8 @@ class TripController extends Controller
             })
             ->first();
         $user = User::find($request->driver_id);
-
-        $lastTripNotSeen = Trip::with('carType','driver')
-            ->where('status',0)
-            ->where('car_type_id',$user->car_->car_type)->orderBy('id','DESC')->first();
+        $tripDriverSeen = new TripDriverSeen();
+        $lastTripNotSeen = $tripDriverSeen->TripNotSeen($request->driver_id, $user->car_->car_type);
 
         $nextScheduledTrip = 0;
         $price = 0;
@@ -1184,7 +1179,8 @@ class TripController extends Controller
                     'daily_kpi'=>$daily_kpi,
                     'balance' => $balance,
                     'is_balance_finished' => ($isBalanceFinished>=0)?0:1,
-                    'num_of_renew_requests' =>$numOfRenewRequests
+                    'num_of_renew_requests' =>$numOfRenewRequests,
+                    'last_trip_not_seen' => $lastTripNotSeen ?? null
                 ]
             ]);
         }
@@ -1200,7 +1196,8 @@ class TripController extends Controller
                     'is_connected' => $driver->is_connected,
                     'daily_kpi' => $daily_kpi,
                     'balance' => $balance,
-                    'num_of_renew_requests' =>$numOfRenewRequests
+                    'num_of_renew_requests' =>$numOfRenewRequests,
+                    'last_trip_not_seen' =>$lastTripNotSeen ?? null
                 ]
             ]);
         }
@@ -1489,8 +1486,19 @@ class TripController extends Controller
 
     public function test()
     {
-        $tripDriver = new TripDriverSeen();
-        $tripDriver->create(['trip_id'=>5,'driver_id'=>6]);
+        //$tripDriver = new TripDriverSeen();
+        //$x = $tripDriver->where('driver_id',6)->pluck('id')->toarray();
+        //var_dump($x);
+//        $tripDriver = new TripDriverSeen();
+//        $tripDriver->trip_id = 13;
+//        $tripDriver->driver_id = 14;
+//        $tripDriver->save();
+        $user = User::find(665);
+        $tripDriverSeen = new TripDriverSeen();
+        $lastTripNotSeen = $tripDriverSeen->TripNotSeen(665, $user->car_->car_type);
+        $x = $tripDriverSeen->where('driver_id',665)->pluck('trip_id')->toarray();
+        var_dump($x);
+
     }
 
 

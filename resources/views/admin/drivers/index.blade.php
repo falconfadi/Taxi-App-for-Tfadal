@@ -254,7 +254,8 @@
                         <select class="select2 form-control"  name="user_id" id="user_id">
                             <optgroup label="{{__('menus.Drivers')}}">
                                 @foreach($drivers as $user)
-                                        <option value="{{$user->id}}" >{{$user->name}} {{$user->drivers_details->father_name}} {{$user->drivers_details->last_name}}-{{$user->phone}}</option>
+
+                                        <option value="{{$user->id}}" >{{$user->name}} {{($user->drivers_details)?$user->drivers_details->father_name:''}} {{($user->drivers_details)?$user->drivers_details->last_name:''}}-{{$user->phone}}</option>
                                 @endforeach
                             </optgroup>
                         </select>
@@ -281,7 +282,7 @@
                     <select class="select2 form-control"  name="driverId" id="driverId">
                         <optgroup label="{{__('menus.Drivers')}}">
                             @foreach($drivers as $user)
-                                <option value="{{$user->id}}" >{{$user->name}} {{$user->drivers_details->father_name}} {{$user->drivers_details->last_name}}-{{$user->phone}}</option>
+                                <option value="{{$user->id}}" >{{$user->name}} {{($user->drivers_details)?$user->drivers_details->father_name:''}} {{($user->drivers_details)?$user->drivers_details->last_name:''}}-{{$user->phone}}</option>
                             @endforeach
                         </optgroup>
                     </select>

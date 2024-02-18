@@ -98,7 +98,7 @@ return [
     'discount' => 'Discount',
     'user_discount' => 'user discount',
     'trip_' => 'Trip',
-    'with_cancelled_trips' => 'مع الرحلات الملغية؟',
+    'with_cancelled_trips' => 'With cancelled trips?',
     'value' => 'Value',
     'distance' => 'distance',
     'distance_compensation' => 'Distance compensation',
@@ -119,13 +119,17 @@ return [
     'pos_single' => 'pos single',
     'schedule_trip_offer' => 'عرض رحلة لاحقة',
     'schedule_trip_discount' => 'تعويض عرض اللاحقة',
-    'female_captain_extra' => 'تعويض عرض اللاحقة',
+    'female_captain_extra' => 'Female captain extra',
     'time_of_create_trip' => 'تاريخ إنشاء الطلب',
     'fourth_win_offer' => 'عرض الأربعة تربح',
     'edit_note' => 'تعديل الملاحظة',
     'expected_distance' => 'المسافة المتوقعة',
 
     'expected_duration' => 'الزمن المتوقع',
-    'confirm' => 'تأكيد'
+    'confirm' => 'تأكيد',
+    'show_map' => 'show Map',
+    'available_drivers_map' => 'Available drivers map',
+    'male_captain_extra' => 'Male captain extra'
+
 
 ];

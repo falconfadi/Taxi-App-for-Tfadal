@@ -48,6 +48,7 @@ class Coordinate extends Model
             ->join('users','coordinates.driver_id','=','users.id')
             ->join('drivers','drivers.user_id','=','users.id')
             ->where('is_connected',1)
+            ->where('verified',1)
             ->groupBy('driver_id')
         ->get();
 

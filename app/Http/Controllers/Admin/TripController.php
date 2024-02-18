@@ -110,67 +110,73 @@ class TripController extends Controller
     public function store(Request $request)
     {
         //var_dump($request->all());exit();
-        $trip = new Trip();
-        if($request->user_==1){
-            $trip->user_id = $request->user_id_;
-        }else{
-            $trip->user_id = 3592;
-        }
+
         $carContObj = new CarController();
         if(!$carContObj->checkAvailableArea($request->latitude_to, $request->longitude_to) || !$carContObj->checkAvailableArea($request->latitude_from, $request->longitude_from))
         {
             Session::flash('alert-danger', __('message.not_avialable_area'));
             return redirect('admin/trips/create');
         }else{
-            //Scheduled
-            if($request->type_==3){
-                $timeOfTrip = $trip->getDifferenceOfTimeInMinutes($request->trip_date_,Carbon::now());
-                if($timeOfTrip<30){
-                    Session::flash('alert-danger',  __('message.trip_must_be_after_30_mins'));
-                    return redirect('admin/trips/create');
-                }
-                $trip->is_scheduled = 1;
-                $trip->trip_date =  $request->trip_date_;
-            }else{
-                $trip->trip_date = Carbon::now();
-            }
 
-            $trip->latitude_from = $trip->truncate($request->latitude_from,10);
-            $trip->longitude_from = $trip->truncate($request->longitude_from,10) ;
-            $trip->location_from = $request->location_from;
 
-            $trip->latitude_to =  $trip->truncate($request->latitude_to,10);
-            $trip->longitude_to = $trip->truncate($request->longitude_to,10) ;
-            $trip->location_to = $request->location_to;
-            $trip->car_type_id = $request->car_type_id_;
+            $trip = new Trip();
+            $trip->addTrip($request->type_, $request->user_,$request->user_id_, $request->latitude_from, $request->longitude_from, $request->location_from, $request->latitude_to, $request->longitude_to, $request->location_to, $request->car_type_id_, $request->second_number_, $request->trip_date_,0, $request->distance, $request->duration, $request->price);
 
-            $trip->silence_trip = 0;
-            $trip->enable_discount = 0;
-            $trip->note = ($request->note)?$request->note:'';
-            //second phone number for user
-            $trip->second_number =  ($request->second_number_)?$request->second_number_:'';
-            $trip->is_multiple = 0;
-            //get last serial number and generate one
-            $trip->serial_num = $trip->getLastSerialNumber();
+//            if($request->user_==1){
+//                $trip->user_id = $request->user_id_;
+//            }else{
+//                $trip->user_id = 3592;
+//            }
+//            //Scheduled
+//            if($request->type_==3){
+//                $timeOfTrip = $trip->getDifferenceOfTimeInMinutes($request->trip_date_,Carbon::now());
+//                if($timeOfTrip<30){
+//                    Session::flash('alert-danger',  __('message.trip_must_be_after_30_mins'));
+//                    return redirect('admin/trips/create');
+//                }
+//                $trip->is_scheduled = 1;
+//                $trip->trip_date =  $request->trip_date_;
+//            }else{
+//                $trip->trip_date = Carbon::now();
+//            }
+//
+//            $trip->latitude_from = $trip->truncate($request->latitude_from,10);
+//            $trip->longitude_from = $trip->truncate($request->longitude_from,10) ;
+//            $trip->location_from = $request->location_from;
+//
+//            $trip->latitude_to =  $trip->truncate($request->latitude_to,10);
+//            $trip->longitude_to = $trip->truncate($request->longitude_to,10) ;
+//            $trip->location_to = $request->location_to;
+//            $trip->car_type_id = $request->car_type_id_;
+//
+//            $trip->silence_trip = 0;
+//            $trip->enable_discount = 0;
+//            $trip->note = ($request->note)?$request->note:'';
+//            //second phone number for user
+//            $trip->second_number =  ($request->second_number_)?$request->second_number_:'';
+//            $trip->is_multiple = 0;
+//            //get last serial number and generate one
+//            $trip->serial_num = $trip->getLastSerialNumber();
+//
+//            if($trip->save()){
+//                $tripObj = new \App\Http\Controllers\Api\TripController();
+//                //save trip details
+//                $tDetails = new TripDetails();
+//                $tDetails->expected_distance = $request->distance;
+//                $tDetails->expected_duration = $request->duration;
+//                $tDetails->expected_price = $request->price;
+//                $tDetails->trip_id = $trip->id;
+//                $tDetails->ip_user = '';
+//                $tDetails->ip_driver = '';
+//                $tDetails->save();
+//                $tripObj->sendNotificationsToDrivers($trip->id, 0, $request->price, $request->distance,0);
 
-            if($trip->save()){
-                $tripObj = new \App\Http\Controllers\Api\TripController();
-                //save trip details
-                $tDetails = new TripDetails();
-                $tDetails->expected_distance = $request->distance;
-                $tDetails->expected_duration = $request->duration;
-                $tDetails->expected_price = $request->price;
-                $tDetails->trip_id = $trip->id;
-                $tDetails->ip_user = '';
-                $tDetails->ip_driver = '';
-                $tDetails->save();
-                $tripObj->sendNotificationsToDrivers($trip->id, 0, $request->price, $request->distance,0);
                 Session::flash('alert-success',__('message.trip_added'));
                 return redirect('admin/trips');
-            }else{
-                Session::flash('alert-danger', __('message.try_again_later'));
-                return redirect('admin/trips/create');
-            }
+//            }else{
+//                Session::flash('alert-danger', __('message.try_again_later'));
+//                return redirect('admin/trips/create');
+//            }
         }
     }
 
@@ -194,7 +200,7 @@ class TripController extends Controller
                 $distance = $carContObj->expectedDitance($fromData['latitude_from'], $fromData['longitude_from'], $toData['latitude_to'], $toData['longitude_to']);
                 $distance = ($distance > 1) ? $distance : 1;
                 if ($distance >= 10 && $distance <= 20) {
-                    $distance *= 1.05;
+                    $distance *= $this->tSetting->factory_price;
                 }
                 $output['distance'] = round($distance, 2);
                 $expectedDuration = floatval($carContObj->expectedDuration($distance));
@@ -900,9 +906,9 @@ class TripController extends Controller
 //        $trip = Trip::find(3861);
 //        $off = ($trip->noteTrip)? substr($trip->noteTrip->note, 0, 20) :'';
 //        var_dump($off);
-        $m = 25322;
-        $c = $this->roundUp500($m);
-        var_dump($c);
+        $trip = new Trip();
+        $trip->addTrip(3,1,120,33.5052697,36.2940311,'دمشق-برزة',33.5006874,36.2742504,'شام سنتر',13,'34545','2023-05-23 18:04:37',10,5,27000);
+        var_dump($trip);
 
     }
 

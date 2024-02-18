@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class Trip extends Model
 {
@@ -211,13 +212,65 @@ class Trip extends Model
             //->select(DB::raw('id ,coordinates.latitude as latitude,coordinates.longitude as longitude,driver_id,name,last_name,father_name,drivers.id as driver_details_id'))
             ->join('trips_drivers_seen','trips_drivers_seen.driver_id','=','trips.driver_id')
             ->where('driver_id', $driverId)
-            ->where('status',0)
+            ->where('trips.status',0)
             ->orderBy('trips.id','DESC')
-
-            //->get();
-
             ->first();
         return $trip;
+    }
+
+    public function addTrip($type=3, $user=1, $user_id, $latitude_from, $longitude_from, $location_from, $latitude_to, $longitude_to, $location_to, $car_type_id, $second_number, $trip_date, $is_company, $distance, $duration, $price){
+
+        if($user==1){
+            $this->user_id = $user_id;
+        }else{
+            $this->user_id = 3592;
+        }
+        //Scheduled
+        if($type==3){
+//            $timeOfTrip = $this->getDifferenceOfTimeInMinutes($trip_date,Carbon::now());
+//            if($timeOfTrip<30){
+//                Session::flash('alert-danger',  __('message.trip_must_be_after_30_mins'));
+//                return redirect('admin/trips/create');
+//            }
+            $this->is_scheduled = 1;
+            $this->trip_date =  $trip_date;
+        }else{
+            $this->trip_date = Carbon::now();
+        }
+
+        $this->latitude_from = $this->truncate($latitude_from,10);
+        $this->longitude_from = $this->truncate($longitude_from,10) ;
+        $this->location_from = $location_from;
+
+        $this->latitude_to =  $this->truncate($latitude_to,10);
+        $this->longitude_to = $this->truncate($longitude_to,10) ;
+        $this->location_to = $location_to;
+        $this->car_type_id = $car_type_id;
+
+        $this->silence_trip = 0;
+        $this->enable_discount = 0;
+        $this->note = '';
+        //second phone number for user
+        $this->second_number = ($second_number!='')?$second_number:'';
+        $this->is_multiple = 0;
+        //get last serial number and generate one
+        $this->serial_num = $this->getLastSerialNumber();
+        $this->is_company = $is_company;
+
+        if($this->save()) {
+            $tripObj = new \App\Http\Controllers\Api\TripController();
+            //save trip details
+            $tDetails = new TripDetails();
+            $tDetails->expected_distance = $distance;
+            $tDetails->expected_duration = $duration;
+            $tDetails->expected_price = $price;
+            $tDetails->trip_id = $this->id;
+            $tDetails->ip_user = '';
+            $tDetails->ip_driver = '';
+            $tDetails->save();
+            $tripObj->sendNotificationsToDrivers($this->id, 0, $price, $distance, 0);
+        }
+        return $this;
     }
 
 }

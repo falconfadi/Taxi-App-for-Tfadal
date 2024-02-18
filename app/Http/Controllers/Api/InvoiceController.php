@@ -89,6 +89,15 @@ class InvoiceController extends Controller
                         array_push($balanceItemsArray, $balanceItem);
                     }
                 }
+                if($this->tSetting->gift_captain_male > 0){
+                    $maleCaptainGirl = $this->tSetting->gift_captain_male;
+                    if($trip->driver->gender==1){
+                        $sumMoney = new Sum_money();
+                        $sumMoney->updateMoney($trip->driver_id, $maleCaptainGirl);
+                        $balanceItem = ['driver_id'=>$trip->driver_id,'renew_amount'=>$maleCaptainGirl,'ishaar'=>'','is_renew'=>7,'image'=>'','trip_id'=>$trip->id,'created_at'=>Carbon::now()];
+                        array_push($balanceItemsArray, $balanceItem);
+                    }
+                }
                 if($discount > 0){
                     //add user discount to driver balance
                     $sumMoney = new Sum_money();

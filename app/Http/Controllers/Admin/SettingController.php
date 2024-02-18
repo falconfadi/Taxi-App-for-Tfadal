@@ -138,9 +138,6 @@ class SettingController extends Controller
         $setting->time_to_request_driver_location = $request->input('time_to_request_driver_location');
         $setting->time_to_request_customer_location = $request->input('time_to_request_customer_location');
 
-
-
-
         if($request->hasFile('logo'))
         {
             $file = $request->file('logo');
@@ -155,6 +152,8 @@ class SettingController extends Controller
             $tSetting->schedule_trip_discount = $request->input('schedule_trip_discount');
             $tSetting->gift_captain_girl = $request->input('gift_captain_girl');
             $tSetting->distance_compensation_scheduled = $request->input('distance_compensation_scheduled');
+            $tSetting->factory_price = $request->input('factory_price');
+            $tSetting->gift_captain_male = $request->input('gift_captain_male');
 
             $tSetting->update();
             Session::flash('alert-success',__('message.Saved_successfully'));

@@ -9,14 +9,15 @@
 <div class="content-body">
     <!-- users list start -->
     <section class="app-user-list">
-        <!-- users filter start -->
-        <div class="card">
-            <div class="card-header border-bottom">
-
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-left mb-0">{{__('menus.companies')}}</h2>
+                    </div>
+                </div>
             </div>
         </div>
-        <!-- users filter end -->
-        <!-- list section start -->
         <div class="card">
             @if(Session::has('alert-success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -38,6 +39,7 @@
                     </button>
                 </div>
             @endif
+
             <div class="card-header border-bottom">
                 <h5 class="card-title">{{__('menus.Trips')}}</h5>
                 <a class="btn btn-primary waves-effect waves-float waves-light" href="{{url('company/add_trip')}}">{{__('label.add_trip')}}</a>

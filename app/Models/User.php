@@ -203,6 +203,16 @@ class User extends Authenticatable
         return $this->hasOne(VerificationCode::class, 'user_id');
     }
 
+    // get connected and verified drivers
+    public function getConnectedDrivers(){
+        $drivers = User::where('is_driver',1)->whereHas('drivers_details',function($subQ) {
+            $subQ->where('verified',1);
+            $subQ->where('is_connected',1);
+        })->get();
+
+        return $drivers;
+    }
+
     public function getActivitylogOptions():LogOptions
     {
         return LogOptions::defaults()
