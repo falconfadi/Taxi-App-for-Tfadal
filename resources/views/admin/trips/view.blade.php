@@ -1,5 +1,11 @@
 @extends('layouts/admin')
 @section('content')
+@if(in_array('company',$permissionsNames) )
+    @php $tripsIds =  Auth::guard('admin')->user()->trips->pluck('id')->toArray() @endphp
+     @if(!in_array(request()->id ,$tripsIds))
+        @php abort(404) @endphp
+     @endif
+@endif
 <style>
     .user-color{
         background-color: #e2e4e6;

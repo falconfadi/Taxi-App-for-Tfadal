@@ -26,6 +26,7 @@ class CompanyController extends Controller
 {
 
     protected $status = array();
+    protected $trips;
     public function __construct()
     {
         parent::__construct();
@@ -37,12 +38,16 @@ class CompanyController extends Controller
             '4'=>__('menus.Arrived_to_destination_location'),
             '5'=>__('menus.Cancelled'),
             '6'=>__('menus.Scheduled_Trip'));
+
+
+
     }
+
     public function index()
     {
         $title =  __('menus.employees');
         $companies = Auth::guard('admin')->user();
-       // ($this->company);exit();
+
         $employees = $companies->employees;
 
         return view('company.index',compact('companies','title','employees'));
@@ -152,9 +157,12 @@ class CompanyController extends Controller
         $status = $this->status;
         $company = Auth::guard('admin')->user();
         // ($this->company);exit();
-        //$trips = $company->trips;
-
         $trips = $company->trips;
+        //$tripsIds = $company->trips->pluck('id')->toArray();
+        //var_dump($tripsIds);exit();
+        //$trips = $company->trips;
+       // $trips = $this->trips;
+
         $cancelReasons = Cancel_reason::all();
         return view('company.trips',compact('company','title','trips','cancelReasons','status'));
     }

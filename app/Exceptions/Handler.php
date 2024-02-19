@@ -2,7 +2,11 @@
 
 namespace App\Exceptions;
 
+use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -35,7 +39,18 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $e) {
-            //
+
         });
+
+        $this->renderable(function (Throwable $e) {
+            return $this->handleException($e);
+        });
+    }
+
+    public function handleException($request, Exception $exception)
+    {
+        if($exception instanceof NotFoundHttpException) {
+            return response('The specified URL cannot be  found.', 404);
+        }
     }
 }
